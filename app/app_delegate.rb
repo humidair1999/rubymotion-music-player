@@ -5,9 +5,9 @@ class AppDelegate
     end
 
     def buildWindow
-        @mainWindow = NSWindow.alloc.initWithContentRect(
+        @mainWindow = CustomNSWindow.alloc.initWithContentRect(
             [[240, 180], [480, 360]],
-            styleMask: NSClosableWindowMask|NSMiniaturizableWindowMask|NSResizableWindowMask,
+            styleMask: NSResizableWindowMask,
             backing: NSBackingStoreBuffered,
             defer: false
         ).tap do |window|
@@ -21,6 +21,8 @@ class AppDelegate
         buildCloseButton
         buildMinimizeButton
         buildMaximizeButton
+
+        buildSearchInput
     end
 
     private
@@ -131,6 +133,49 @@ class AppDelegate
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
                 constant: 10.0
+            ))
+        end
+
+        def buildSearchInput
+            @searchInput = NSTextField.alloc.initWithFrame(
+                [[210, 10], [100, 22]]
+            ).tap do |textInput|
+                textInput.translatesAutoresizingMaskIntoConstraints = false
+                textInput.setEditable(true)
+                textInput.stringValue = "http://images.apple.com/main/rss/hotnews/hotnews.rss"
+                # @text_url.autoresizingMask = NSViewMinXMargin|NSViewMinYMargin|NSViewWidthSizable
+            end
+
+            @mainWindow.contentView.addSubview(@searchInput)
+
+            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @searchInput,
+                attribute: NSLayoutAttributeTop,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.contentView,
+                attribute: NSLayoutAttributeTop,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
+
+            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @searchInput,
+                attribute: NSLayoutAttributeLeft,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @maximizeButton,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
+
+            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @searchInput,
+                attribute: NSLayoutAttributeRight,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.contentView,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: -10.0
             ))
         end
 
