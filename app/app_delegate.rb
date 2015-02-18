@@ -13,7 +13,7 @@ class AppDelegate
     ).tap do |window|
       window.title = NSBundle.mainBundle.infoDictionary['CFBundleName']
       # window.setAlphaValue(0.9)
-      window.setBackgroundColor(NSColor.colorWithCalibratedRed(52.0/255.0, green: 152.0/255.0, blue: 219.0/255.0, alpha: 255.0/255.0))
+      window.setBackgroundColor(NSColor.colorWithCalibratedRed(28.0/255.0, green: 42.0/255.0, blue: 57.0/255.0, alpha: 255.0/255.0))
       # window.setOpaque(false)
       window.orderFrontRegardless
 
@@ -26,7 +26,46 @@ class AppDelegate
         button.action = 'close'
       end
 
+      minimizeButton = NSButton.alloc.initWithFrame(
+        [[110, 10], [100, 22]]
+      ).tap do |button|
+        button.title = 'Minimize'
+        button.bezelStyle = NSTexturedRoundedBezelStyle
+        button.target = self
+        button.action = 'minimize:'
+      end
+
+      maximizeButton = NSButton.alloc.initWithFrame(
+        [[210, 10], [100, 22]]
+      ).tap do |button|
+        button.title = 'Maximize'
+        button.bezelStyle = NSTexturedRoundedBezelStyle
+        button.target = self
+        button.action = 'maximize:'
+      end
+
       window.contentView.addSubview(closeButton)
+      window.contentView.addSubview(minimizeButton)
+      window.contentView.addSubview(maximizeButton)
     end
+  end
+
+  def minimize(sender)
+    p sender
+
+    @mainWindow.miniaturize sender
+    @mainWindow.setMiniwindowTitle('Get fucked')
+    # TODO: set miniwindow image?
+  end
+
+  def maximize(sender)
+    p sender
+    p NSScreen.mainScreen.visibleFrame
+
+    @mainWindow.setFrame(
+      NSScreen.mainScreen.visibleFrame,
+      display: true,
+      animate: true
+    )
   end
 end
