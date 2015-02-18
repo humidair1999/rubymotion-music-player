@@ -20,8 +20,14 @@ class AppDelegate
       closeButton = NSButton.alloc.initWithFrame(
         [[10, 10], [100, 22]]
       ).tap do |button|
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.bezelStyle = NSShadowlessSquareBezelStyle
+        button.buttonType = NSMomentaryChangeButton
         button.title = 'Close'
-        button.bezelStyle = NSTexturedRoundedBezelStyle
+        # button.bordered = true
+        # button.image = NSImage.imageNamed('img/circle')
+        # p button.image
+        # button.imagePosition = NSImageOnly
         button.target = window
         button.action = 'close'
       end
@@ -29,8 +35,10 @@ class AppDelegate
       minimizeButton = NSButton.alloc.initWithFrame(
         [[110, 10], [100, 22]]
       ).tap do |button|
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.bezelStyle = NSShadowlessSquareBezelStyle
+        button.buttonType = NSMomentaryChangeButton
         button.title = 'Minimize'
-        button.bezelStyle = NSTexturedRoundedBezelStyle
         button.target = self
         button.action = 'minimize:'
       end
@@ -38,8 +46,10 @@ class AppDelegate
       maximizeButton = NSButton.alloc.initWithFrame(
         [[210, 10], [100, 22]]
       ).tap do |button|
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.bezelStyle = NSShadowlessSquareBezelStyle
+        button.buttonType = NSMomentaryChangeButton
         button.title = 'Maximize'
-        button.bezelStyle = NSTexturedRoundedBezelStyle
         button.target = self
         button.action = 'maximize:'
       end
@@ -47,6 +57,66 @@ class AppDelegate
       window.contentView.addSubview(closeButton)
       window.contentView.addSubview(minimizeButton)
       window.contentView.addSubview(maximizeButton)
+
+      window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+        closeButton,
+        attribute: NSLayoutAttributeTop,
+        relatedBy: NSLayoutRelationEqual,
+        toItem: window.contentView,
+        attribute: NSLayoutAttributeTop,
+        multiplier: 1.0,
+        constant: 10.0
+      ))
+
+      window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+        closeButton,
+        attribute: NSLayoutAttributeLeft,
+        relatedBy: NSLayoutRelationEqual,
+        toItem: window.contentView,
+        attribute: NSLayoutAttributeLeft,
+        multiplier: 1.0,
+        constant: 10.0
+      ))
+
+      window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+        minimizeButton,
+        attribute: NSLayoutAttributeTop,
+        relatedBy: NSLayoutRelationEqual,
+        toItem: window.contentView,
+        attribute: NSLayoutAttributeTop,
+        multiplier: 1.0,
+        constant: 10.0
+      ))
+
+      window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+        minimizeButton,
+        attribute: NSLayoutAttributeLeft,
+        relatedBy: NSLayoutRelationEqual,
+        toItem: closeButton,
+        attribute: NSLayoutAttributeRight,
+        multiplier: 1.0,
+        constant: 10.0
+      ))
+
+      window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+        maximizeButton,
+        attribute: NSLayoutAttributeTop,
+        relatedBy: NSLayoutRelationEqual,
+        toItem: window.contentView,
+        attribute: NSLayoutAttributeTop,
+        multiplier: 1.0,
+        constant: 10.0
+      ))
+
+      window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+        maximizeButton,
+        attribute: NSLayoutAttributeLeft,
+        relatedBy: NSLayoutRelationEqual,
+        toItem: minimizeButton,
+        attribute: NSLayoutAttributeRight,
+        multiplier: 1.0,
+        constant: 10.0
+      ))
     end
   end
 
