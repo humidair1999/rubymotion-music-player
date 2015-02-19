@@ -145,6 +145,7 @@ class AppDelegate
                 textInput.translatesAutoresizingMaskIntoConstraints = false
                 textInput.setEditable(true)
                 textInput.stringValue = 'search for a song:'
+                textInput.setDelegate(self)
                 # @text_url.autoresizingMask = NSViewMinXMargin|NSViewMinYMargin|NSViewWidthSizable
             end
 
@@ -179,6 +180,12 @@ class AppDelegate
                 multiplier: 1.0,
                 constant: -10.0
             ))
+        end
+
+        def controlTextDidChange(notification)
+            p notification.object.stringValue
+
+            @trackListCtrl.filterSongs(notification.object.stringValue)
         end
 
         def minimize(sender)

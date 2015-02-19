@@ -18,6 +18,14 @@ class TrackListController
         buildTableView
     end
 
+    def filterSongs(searchQuery)
+        # TODO: currently data is totally overwritten by filter! need to store
+        #  original data array also
+        @data = @data.select {|song| song[:filePath].include?(searchQuery) }
+
+        @tableView.reloadData
+    end
+
     private
 
         def buildFileSelectButton
