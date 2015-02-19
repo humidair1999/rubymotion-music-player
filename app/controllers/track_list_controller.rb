@@ -169,17 +169,15 @@ class TrackListController
         end
 
         def tableView(aTableView, sortDescriptorsDidChange: oldDescriptors)
-            if oldDescriptors[0]
-                activeDescriptor = oldDescriptors[0]
-
-                if activeDescriptor.key == 'filePath'
-                    @data = activeDescriptor.ascending ?
-                        @data.sort_by{ |item| item[:filePath] }.reverse :
-                        @data.sort_by{ |item| item[:filePath] }
-                elsif activeDescriptor.key == 'length'
-                    @data = activeDescriptor.ascending ?
-                        @data.sort_by{ |item| item[:length] }.reverse :
-                        @data.sort_by{ |item| item[:length] }
+            if sortDescriptor = aTableView.sortDescriptors[0]
+                if sortDescriptor.key == 'filePath'
+                    @data = sortDescriptor.ascending ?
+                        @data.sort_by{ |item| item[:filePath] } :
+                        @data.sort_by{ |item| item[:filePath] }.reverse
+                elsif sortDescriptor.key == 'length'
+                    @data = sortDescriptor.ascending ?
+                        @data.sort_by{ |item| item[:length] } :
+                        @data.sort_by{ |item| item[:length] }.reverse
                 end
             end
 
