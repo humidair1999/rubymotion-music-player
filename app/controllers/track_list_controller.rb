@@ -127,30 +127,71 @@ class TrackListController
                 table.rowHeight = 18.0
             end
 
-            columnFilePath = NSTableColumn.alloc.initWithIdentifier("filePath")
-            columnFilePath.editable = false
-            columnFilePath.headerCell.setTitle("File Path")
-            columnFilePath.width = 400
+            columnFilePath = NSTableColumn.alloc.initWithIdentifier("filePath").tap do |column|
+                column.editable = false
+                column.headerCell.setTitle("File Path")
+                column.width = 400
+
+                filePathSortDescriptor = NSSortDescriptor.sortDescriptorWithKey(
+                    column.identifier,
+                    ascending: true,
+                    selector: 'compare:'
+                )
+
+                column.setSortDescriptorPrototype(filePathSortDescriptor)
+            end
+
             @tableView.addTableColumn(columnFilePath)
 
-            columnDate = NSTableColumn.alloc.initWithIdentifier("length")
-            columnDate.editable = false
-            columnDate.headerCell.setTitle("Length")
-            columnDate.width = 400
+            columnDate = NSTableColumn.alloc.initWithIdentifier("length").tap do |column|
+                column.editable = false
+                column.headerCell.setTitle("Length")
+                column.width = 400
+
+                lengthSortDescriptor = NSSortDescriptor.sortDescriptorWithKey(
+                    column.identifier,
+                    ascending: true,
+                    selector: 'compare:'
+                )
+
+                column.setSortDescriptorPrototype(lengthSortDescriptor)
+            end
+
             @tableView.addTableColumn(columnDate)
 
             @tableView.delegate = self
             @tableView.dataSource = self
             @tableView.autoresizingMask = NSViewMinXMargin|NSViewMaxXMargin|NSViewMinYMargin|NSViewMaxYMargin
             @tableView.target = self
-            @tableView.doubleAction = :"doubleClickColumn:"
+            @tableView.doubleAction = "doubleClickColumn:"
 
             @scrollView.setDocumentView(@tableView)
+        end
+
+        def tableView(aTableView, sortDescriptorsDidChange: oldDescriptors)
+            if oldDescriptors[0]
+                activeDescriptor = oldDescriptors[0]
+
+                if activeDescriptor.key == 'filePath'
+                    @data = activeDescriptor.ascending ?
+                        @data.sort_by{ |item| item[:filePath] }.reverse :
+                        @data.sort_by{ |item| item[:filePath] }
+                elsif activeDescriptor.key == 'length'
+                    @data = activeDescriptor.ascending ?
+                        @data.sort_by{ |item| item[:length] }.reverse :
+                        @data.sort_by{ |item| item[:length] }
+                end
+            end
+
+            aTableView.reloadData
         end
 
         def tableView(aTableView, viewForTableColumn: aTableColumn, row: aRow)
             # Get an existing cell with the MyView identifier if it exists
             result = aTableView.makeViewWithIdentifier("SongListCellView", owner: self)
+
+            p aTableColumn.identifier
+            p aRow
 
             # There is no existing cell to reuse so create a new one
             if (result.nil?)
