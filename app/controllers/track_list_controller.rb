@@ -2,17 +2,62 @@ class TrackListController
     include AppHelper
 
     def initialize(opts)
-        p opts
+        @data = []
 
         @closeButton = opts[:closeButton]
 
-        renderScrollView
-        renderTableView
+        buildFileSelectButton
+
+        buildScrollView
+        buildTableView
     end
 
     private
 
-        def renderScrollView
+        def buildFileSelectButton
+            @fileSelectButton = NSButton.alloc.initWithFrame(
+                [[10, 10], [100, 22]]
+            ).tap do |button|
+                button.translatesAutoresizingMaskIntoConstraints = false
+                button.bezelStyle = NSShadowlessSquareBezelStyle
+                button.buttonType = NSMomentaryChangeButton
+                button.title = 'Select folder'
+                # button.bordered = true
+                # button.image = NSImage.imageNamed('img/circle')
+                # p button.image
+                # button.imagePosition = NSImageOnly
+                button.target = self
+                button.action = 'selectFolder:'
+            end
+
+            main_window.contentView.addSubview(@fileSelectButton)
+
+            main_window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @fileSelectButton,
+                attribute: NSLayoutAttributeBottom,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: main_window.contentView,
+                attribute: NSLayoutAttributeBottom,
+                multiplier: 1.0,
+                constant: -10.0
+            ))
+
+            main_window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @fileSelectButton,
+                attribute: NSLayoutAttributeLeft,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: main_window.contentView,
+                attribute: NSLayoutAttributeLeft,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
+        end
+
+        def selectFolder(sender)
+            p 'select folder'
+        end
+
+        def buildScrollView
             @scrollView = NSScrollView.alloc.initWithFrame(
                 [[0, 0], [480, 322]]
             ).tap do |scrollView|
@@ -37,10 +82,10 @@ class TrackListController
                 @scrollView,
                 attribute: NSLayoutAttributeBottom,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: main_window.contentView,
-                attribute: NSLayoutAttributeBottom,
+                toItem: @fileSelectButton,
+                attribute: NSLayoutAttributeTop,
                 multiplier: 1.0,
-                constant: 0.0
+                constant: -10.0
             ))
 
             main_window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
@@ -64,7 +109,7 @@ class TrackListController
             ))
         end
 
-        def renderTableView
+        def buildTableView
             @tableView = NSTableView.alloc.init
 
             columnFilePath = NSTableColumn.alloc.initWithIdentifier("filePath")
@@ -86,5 +131,26 @@ class TrackListController
             @tableView.doubleAction = :"doubleClickColumn:"
 
             @scrollView.setDocumentView(@tableView)
+
+            @tableView.reloadData
+        end
+
+        def numberOfRowsInTableView(aTableView)
+          @data.size
+        end
+
+        def tableView(aTableView,
+                      objectValueForTableColumn: aTableColumn,
+                      row: rowIndex)
+          case aTableColumn.identifier
+          when "title"
+            @data[rowIndex]['title']
+          when "date"
+            ['dc:date', 'pubDate', 'updated'].each do |d|
+              if item = @data[rowIndex][d]
+                return item
+              end
+            end
+          end
         end
 end
