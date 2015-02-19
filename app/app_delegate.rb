@@ -144,7 +144,7 @@ class AppDelegate
             ).tap do |textInput|
                 textInput.translatesAutoresizingMaskIntoConstraints = false
                 textInput.setEditable(true)
-                textInput.stringValue = "http://images.apple.com/main/rss/hotnews/hotnews.rss"
+                textInput.stringValue = 'search for a song:'
                 # @text_url.autoresizingMask = NSViewMinXMargin|NSViewMinYMargin|NSViewWidthSizable
             end
 

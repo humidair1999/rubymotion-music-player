@@ -74,7 +74,6 @@ class TrackListController
                 [[0, 0], [480, 322]]
             ).tap do |scrollView|
                 scrollView.translatesAutoresizingMaskIntoConstraints = false
-                # scrollView.autoresizingMask = NSViewMinXMargin|NSViewMinYMargin|NSViewWidthSizable|NSViewHeightSizable
                 scrollView.hasVerticalScroller = true
             end
 
@@ -123,7 +122,8 @@ class TrackListController
 
         def buildTableView
             @tableView = NSTableView.alloc.init.tap do |table|
-                table.usesAlternatingRowBackgroundColors = true
+                # table.usesAlternatingRowBackgroundColors = true
+                table.backgroundColor = NSColor.colorWithCalibratedRed(28.0/255.0, green: 42.0/255.0, blue: 57.0/255.0, alpha: 255.0/255.0)
                 table.rowHeight = 18.0
             end
 
@@ -148,8 +148,53 @@ class TrackListController
             @scrollView.setDocumentView(@tableView)
         end
 
+        def tableView(aTableView, viewForTableColumn: aTableColumn, row: aRow)
+            # Get an existing cell with the MyView identifier if it exists
+            result = aTableView.makeViewWithIdentifier("SongListCellView", owner: self)
+
+            # There is no existing cell to reuse so create a new one
+            if (result.nil?)
+                # Create the new NSTextField with a frame of the {0,0} with the width of the table.
+                # Note that the height of the frame is not really relevant, because the row height will modify the height.
+                result = NSTextField.alloc.initWithFrame(
+                    [[0, 100], [0, 100]]
+                ).tap do |textField|
+                    textField.setSelectable(false)
+                    textField.setBezeled(false)
+                    textField.setDrawsBackground(false)
+                    textField.setBordered(false)
+
+                    textField.setTextColor(NSColor.colorWithCalibratedRed(188.0/255.0, green: 202.0/255.0, blue: 217.0/255.0, alpha: 255.0/255.0))
+                end
+
+                # The identifier of the NSTextField instance is set to MyView.
+                # This allows the cell to be reused.
+                result.identifier = "SongListCellView"
+            end
+
+            # result is now guaranteed to be valid, either as a reused cell
+            # or as a new cell, so set the stringValue of the cell to the
+            # nameArray value at row
+            result.stringValue = @data[aRow]
+
+            # Return the result
+            return result
+        end
+
+        def tableView(aTableView, didAddRowView: rowView, forRow: row)
+            if (row % 2 == 0)
+                rowView.backgroundColor = NSColor.colorWithCalibratedRed(28.0/255.0, green: 42.0/255.0, blue: 57.0/255.0, alpha: 255.0/255.0)
+            else
+                rowView.backgroundColor = NSColor.colorWithCalibratedRed(44.0/255.0, green: 58.0/255.0, blue: 73.0/255.0, alpha: 255.0/255.0)
+            end
+        end
+
         def doubleClickColumn(sender)
             p 'click song'
+
+            row = sender.clickedRow
+            
+            p @data[row]
         end
 
         def numberOfRowsInTableView(aTableView)
