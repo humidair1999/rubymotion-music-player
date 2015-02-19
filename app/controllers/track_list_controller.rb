@@ -2,7 +2,13 @@ class TrackListController
     include AppHelper
 
     def initialize(opts)
-        @data = []
+        @data = [
+            { filePath: 'hahaha', length: '6:32' },
+            { filePath: 'hahaha2', length: '7:32' },
+            { filePath: 'hahaha3', length: '8:32' },
+            { filePath: 'hahaha4', length: '9:32' },
+            { filePath: 'hahaha5', length: '10:32' },
+        ]
 
         @closeButton = opts[:closeButton]
 
@@ -55,6 +61,12 @@ class TrackListController
 
         def selectFolder(sender)
             p 'select folder'
+
+            @data << { filePath: 'hahahanew', length: '1:32' }
+            @data << { filePath: 'hahahanew', length: '2:32' }
+            @data << { filePath: 'hahahanew', length: '3:32' }
+
+            @tableView.reloadData
         end
 
         def buildScrollView
@@ -131,26 +143,24 @@ class TrackListController
             @tableView.doubleAction = :"doubleClickColumn:"
 
             @scrollView.setDocumentView(@tableView)
+        end
 
-            @tableView.reloadData
+        def doubleClickColumn(sender)
+            p 'click song'
         end
 
         def numberOfRowsInTableView(aTableView)
           @data.size
         end
 
-        def tableView(aTableView,
-                      objectValueForTableColumn: aTableColumn,
-                      row: rowIndex)
-          case aTableColumn.identifier
-          when "title"
-            @data[rowIndex]['title']
-          when "date"
-            ['dc:date', 'pubDate', 'updated'].each do |d|
-              if item = @data[rowIndex][d]
-                return item
-              end
+        def tableView(aTableView, objectValueForTableColumn: aTableColumn, row: rowIndex)
+            p aTableColumn
+
+            case aTableColumn.identifier
+                when 'filePath'
+                    @data[rowIndex][:filePath]
+                when 'length'
+                    @data[rowIndex][:length]
             end
-          end
         end
 end
