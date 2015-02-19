@@ -9,7 +9,7 @@ class AppDelegate
     def buildWindow
         @mainWindow = CustomNSWindow.alloc.initWithContentRect(
             [[240, 180], [480, 360]],
-            styleMask: NSResizableWindowMask,
+            styleMask: NSBorderlessWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask|NSResizableWindowMask,
             backing: NSBackingStoreBuffered,
             defer: false
         ).tap do |window|
