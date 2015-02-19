@@ -122,7 +122,12 @@ class TrackListController
         end
 
         def buildTableView
-            @tableView = NSTableView.alloc.init
+            @tableView = NSTableView.alloc.init.tap do |table|
+                # table.usesAlternatingRowBackgroundColors = true
+                table.backgroundColor = NSColor.colorWithCalibratedRed(28.0/255.0, green: 42.0/255.0, blue: 57.0/255.0, alpha: 255.0/255.0)
+                table.gridColor = NSColor.colorWithCalibratedRed(28.0/255.0, green: 42.0/255.0, blue: 57.0/255.0, alpha: 255.0/255.0)
+                table.rowHeight = 18.0
+            end
 
             columnFilePath = NSTableColumn.alloc.initWithIdentifier("filePath")
             columnFilePath.editable = false
