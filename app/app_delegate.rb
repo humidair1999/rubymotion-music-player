@@ -2,6 +2,8 @@ class AppDelegate
     def applicationDidFinishLaunching(notification)
         buildMenu
         buildWindow
+
+        @trackListCtrl = TrackListController.new(closeButton: @closeButton)
     end
 
     def buildWindow
@@ -165,7 +167,7 @@ class AppDelegate
                 toItem: @maximizeButton,
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
-                constant: 10.0
+                constant: 60.0
             ))
 
             @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
