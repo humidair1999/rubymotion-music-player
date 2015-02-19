@@ -2,8 +2,6 @@ class AppDelegate
     def applicationDidFinishLaunching(notification)
         buildMenu
         buildWindow
-
-        @trackListCtrl = TrackListController.new(closeButton: @closeButton)
     end
 
     def buildWindow
@@ -25,6 +23,8 @@ class AppDelegate
         buildMaximizeButton
 
         buildSearchInput
+
+        @trackListCtrl = TrackListController.new(closeButton: @closeButton)
     end
 
     private

@@ -6,12 +6,13 @@ class TrackListController
 
         @closeButton = opts[:closeButton]
 
-        render
+        renderScrollView
+        renderTableView
     end
 
     private
 
-        def render
+        def renderScrollView
             @scrollView = NSScrollView.alloc.initWithFrame(
                 [[0, 0], [480, 322]]
             ).tap do |scrollView|
@@ -61,5 +62,29 @@ class TrackListController
                 multiplier: 1.0,
                 constant: 0.0
             ))
+        end
+
+        def renderTableView
+            @tableView = NSTableView.alloc.init
+
+            columnFilePath = NSTableColumn.alloc.initWithIdentifier("filePath")
+            columnFilePath.editable = false
+            columnFilePath.headerCell.setTitle("File Path")
+            columnFilePath.width = 400
+            @tableView.addTableColumn(columnFilePath)
+
+            columnDate = NSTableColumn.alloc.initWithIdentifier("length")
+            columnDate.editable = false
+            columnDate.headerCell.setTitle("Length")
+            columnDate.width = 400
+            @tableView.addTableColumn(columnDate)
+
+            @tableView.delegate = self
+            @tableView.dataSource = self
+            @tableView.autoresizingMask = NSViewMinXMargin|NSViewMaxXMargin|NSViewMinYMargin|NSViewMaxYMargin
+            @tableView.target = self
+            @tableView.doubleAction = :"doubleClickColumn:"
+
+            @scrollView.setDocumentView(@tableView)
         end
 end
