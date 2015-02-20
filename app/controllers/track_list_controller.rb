@@ -2,13 +2,9 @@ class TrackListController
     include AppHelper
 
     def initialize(opts)
-        @data = [
-            { filePath: 'hahaha', length: '6:32' },
-            { filePath: 'hahaha2', length: '7:32' },
-            { filePath: 'hahaha3', length: '8:32' },
-            { filePath: 'hahaha4', length: '9:32' },
-            { filePath: 'hahaha5', length: '10:32' },
-        ]
+        @trackList = TrackList.new
+
+        @data = @trackList.getAllTracks
 
         @closeButton = opts[:closeButton]
 
@@ -19,9 +15,7 @@ class TrackListController
     end
 
     def filterSongs(searchQuery)
-        # TODO: currently data is totally overwritten by filter! need to store
-        #  original data array also
-        @data = @data.select {|song| song[:filePath].include?(searchQuery) }
+        @data = @trackList.filterByFilePath(searchQuery)
 
         @tableView.reloadData
     end
@@ -70,9 +64,8 @@ class TrackListController
         def selectFolder(sender)
             p 'select folder'
 
-            @data << { filePath: 'hahahanew', length: '1:32' }
-            @data << { filePath: 'hahahanew', length: '2:32' }
-            @data << { filePath: 'hahahanew', length: '3:32' }
+            # TODO: add actual songs from filesystem
+            @trackList.addTracks
 
             @tableView.reloadData
         end
@@ -178,26 +171,18 @@ class TrackListController
 
         def tableView(aTableView, sortDescriptorsDidChange: oldDescriptors)
             if sortDescriptor = aTableView.sortDescriptors[0]
-                if sortDescriptor.key == 'filePath'
-                    sortedFilePaths = @data.sort_by{ |item| item[:filePath] }
+                @data = @trackList.sort(sortDescriptor.key.to_sym, sortDescriptor.ascending)
 
-                    @data = sortDescriptor.ascending ? sortedFilePaths : sortedFilePaths.reverse
-                elsif sortDescriptor.key == 'length'
-                    sortedLengths = @data.sort_by{ |item| item[:length] }
-
-                    @data = sortDescriptor.ascending ? sortedLengths : sortedLengths.reverse
-                end
+                aTableView.reloadData
             end
-
-            aTableView.reloadData
         end
 
         def tableView(aTableView, viewForTableColumn: aTableColumn, row: aRow)
             # Get an existing cell with the MyView identifier if it exists
             result = aTableView.makeViewWithIdentifier("SongListCellView", owner: self)
 
-            p aTableColumn.identifier
-            p aRow
+            # p aTableColumn.identifier
+            # p aRow
 
             # There is no existing cell to reuse so create a new one
             if (result.nil?)
@@ -245,7 +230,7 @@ class TrackListController
         end
 
         def numberOfRowsInTableView(aTableView)
-          @data.size
+            @data.size
         end
 
         def tableView(aTableView, objectValueForTableColumn: aTableColumn, row: rowIndex)
