@@ -1,3 +1,4 @@
+# TODO: probably should be an instance of NSViewController?
 class TrackListController
     include AppHelper
 
@@ -63,6 +64,21 @@ class TrackListController
 
         def selectFolder(sender)
             p 'select folder'
+
+            folderChooserPanel = NSOpenPanel.openPanel.tap do |panel|
+                panel.setCanChooseFiles(false)
+                panel.setCanChooseDirectories(true)
+                panel.setAllowsMultipleSelection(false)
+                panel.setResolvesAliases(false)
+                panel.setMessage("Select a directory containing your music:")
+
+                panel.beginSheetModalForWindow(main_window, completionHandler: lambda { |result|
+                    if (result == NSFileHandlingPanelOKButton)
+                        p result
+                        p urls = panel.URLs
+                    end
+                })
+            end
 
             # TODO: add actual songs from filesystem
             @trackList.addTracks
@@ -234,7 +250,7 @@ class TrackListController
         end
 
         def tableView(aTableView, objectValueForTableColumn: aTableColumn, row: rowIndex)
-            p aTableColumn
+            # p aTableColumn
 
             case aTableColumn.identifier
                 when 'filePath'

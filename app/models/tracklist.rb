@@ -1,5 +1,9 @@
 class TrackList
     def initialize
+        @fileManager = NSFileManager.alloc.init
+
+        p @fileManager
+
         # TODO: initialize with existing playlist (.json file?)
         @trackList = []
     end
