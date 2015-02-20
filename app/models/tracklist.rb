@@ -65,7 +65,7 @@ class TrackList
     end
 
     def sort(key, isAscending)
-        sortedTracks = getAllTracks.sort_by{ |item| item[key.to_sym] }
+        sortedTracks = getAllTracks.sort_by{ |item| item[key.to_sym].downcase }
 
         isAscending ? sortedTracks : sortedTracks.reverse
     end
