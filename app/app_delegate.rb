@@ -27,6 +27,7 @@ class AppDelegate
         buildSearchInput
 
         @trackListCtrl = TrackListController.new(closeButton: @closeButton)
+        @transportControlsViewController = TransportControlsController.new
     end
 
     private
@@ -146,7 +147,6 @@ class AppDelegate
             ).tap do |textInput|
                 textInput.translatesAutoresizingMaskIntoConstraints = false
                 textInput.setEditable(true)
-                textInput.stringValue = 'search for a song:'
                 textInput.setDelegate(self)
                 # @text_url.autoresizingMask = NSViewMinXMargin|NSViewMinYMargin|NSViewWidthSizable
             end

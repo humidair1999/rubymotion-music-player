@@ -39,23 +39,23 @@ class TrackListController
                 button.action = 'selectFolder:'
             end
 
-            main_window.contentView.addSubview(@fileSelectButton)
+            mainWindow.contentView.addSubview(@fileSelectButton)
 
-            main_window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+            mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
                 @fileSelectButton,
                 attribute: NSLayoutAttributeBottom,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: main_window.contentView,
+                toItem: mainWindow.contentView,
                 attribute: NSLayoutAttributeBottom,
                 multiplier: 1.0,
                 constant: -10.0
             ))
 
-            main_window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+            mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
                 @fileSelectButton,
                 attribute: NSLayoutAttributeLeft,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: main_window.contentView,
+                toItem: mainWindow.contentView,
                 attribute: NSLayoutAttributeLeft,
                 multiplier: 1.0,
                 constant: 10.0
@@ -70,7 +70,7 @@ class TrackListController
                 panel.setResolvesAliases(false)
                 panel.setMessage("Select a directory containing your music:")
 
-                panel.beginSheetModalForWindow(main_window, completionHandler: lambda { |result|
+                panel.beginSheetModalForWindow(mainWindow, completionHandler: lambda { |result|
                     if (result == NSFileHandlingPanelOKButton)
                         selectedDirectoryUrl = panel.URLs[0]
 
@@ -94,9 +94,9 @@ class TrackListController
                 scrollView.hasVerticalScroller = true
             end
 
-            main_window.contentView.addSubview(@scrollView)
+            mainWindow.contentView.addSubview(@scrollView)
 
-            main_window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+            mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
                 @scrollView,
                 attribute: NSLayoutAttributeTop,
                 relatedBy: NSLayoutRelationEqual,
@@ -106,7 +106,7 @@ class TrackListController
                 constant: 10.0
             ))
 
-            main_window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+            mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
                 @scrollView,
                 attribute: NSLayoutAttributeBottom,
                 relatedBy: NSLayoutRelationEqual,
@@ -116,21 +116,21 @@ class TrackListController
                 constant: -10.0
             ))
 
-            main_window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+            mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
                 @scrollView,
                 attribute: NSLayoutAttributeLeft,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: main_window.contentView,
+                toItem: mainWindow.contentView,
                 attribute: NSLayoutAttributeLeft,
                 multiplier: 1.0,
                 constant: 0.0
             ))
 
-            main_window.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+            mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
                 @scrollView,
                 attribute: NSLayoutAttributeRight,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: main_window.contentView,
+                toItem: mainWindow.contentView,
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
                 constant: 0.0
