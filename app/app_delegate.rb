@@ -5,8 +5,10 @@ class AppDelegate
     end
 
     def buildWindow
+        visibleArea = NSScreen.mainScreen.visibleFrame
+
         @mainWindow = CustomNSWindow.alloc.initWithContentRect(
-            [[240, 180], [480, 360]],
+            [[0, NSHeight(visibleArea)], [(NSWidth(visibleArea) / 2), (NSHeight(visibleArea) / 2)]],
             styleMask: NSBorderlessWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask|NSResizableWindowMask,
             backing: NSBackingStoreBuffered,
             defer: false

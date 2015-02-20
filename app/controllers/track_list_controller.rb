@@ -67,6 +67,8 @@ class TrackListController
             # TODO: add actual songs from filesystem
             @trackList.addTracks
 
+            @data = @trackList.getAllTracks
+
             @tableView.reloadData
         end
 
@@ -123,6 +125,11 @@ class TrackListController
 
         def buildTableView
             @tableView = NSTableView.alloc.init.tap do |table|
+                table.delegate = self
+                table.dataSource = self
+                table.autoresizingMask = NSViewMinXMargin|NSViewMaxXMargin|NSViewMinYMargin|NSViewMaxYMargin
+                table.target = self
+                table.doubleAction = "doubleClickColumn:"
                 # table.usesAlternatingRowBackgroundColors = true
                 table.backgroundColor = NSColor.colorWithCalibratedRed(28.0/255.0, green: 42.0/255.0, blue: 57.0/255.0, alpha: 255.0/255.0)
                 table.rowHeight = 18.0
@@ -131,7 +138,7 @@ class TrackListController
             columnFilePath = NSTableColumn.alloc.initWithIdentifier("filePath").tap do |column|
                 column.editable = false
                 column.headerCell.setTitle("File Path")
-                column.width = 400
+                column.width = 200
 
                 filePathSortDescriptor = NSSortDescriptor.sortDescriptorWithKey(
                     column.identifier,
@@ -142,12 +149,10 @@ class TrackListController
                 column.setSortDescriptorPrototype(filePathSortDescriptor)
             end
 
-            @tableView.addTableColumn(columnFilePath)
-
             columnDate = NSTableColumn.alloc.initWithIdentifier("length").tap do |column|
                 column.editable = false
                 column.headerCell.setTitle("Length")
-                column.width = 400
+                column.width = 200
 
                 lengthSortDescriptor = NSSortDescriptor.sortDescriptorWithKey(
                     column.identifier,
@@ -158,13 +163,8 @@ class TrackListController
                 column.setSortDescriptorPrototype(lengthSortDescriptor)
             end
 
+            @tableView.addTableColumn(columnFilePath)
             @tableView.addTableColumn(columnDate)
-
-            @tableView.delegate = self
-            @tableView.dataSource = self
-            @tableView.autoresizingMask = NSViewMinXMargin|NSViewMaxXMargin|NSViewMinYMargin|NSViewMaxYMargin
-            @tableView.target = self
-            @tableView.doubleAction = "doubleClickColumn:"
 
             @scrollView.setDocumentView(@tableView)
         end

@@ -20,12 +20,13 @@ class TrackList
     end
 
     def filterByFilePath(searchQuery)
-        getAllTracks.select {|track| track[:filePath].include?(searchQuery) }
+        # TODO: move to something cleaner/more performant?
+        getAllTracks.select {|track| track[:filePath].downcase.include?(searchQuery.downcase) }
     end
 
     def sort(key, isAscending)
         sortedTracks = getAllTracks.sort_by{ |item| item[key.to_sym] }
 
-        sortedTracks = isAscending ? sortedTracks : sortedTracks.reverse
+        isAscending ? sortedTracks : sortedTracks.reverse
     end
 end
