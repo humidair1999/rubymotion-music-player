@@ -9,13 +9,13 @@ class AppDelegate
         @audioManager = AudioManager.new
 
         # create top-level ui components
-        @mainWindow = MainWindow.create
+        @mainWindow = MainWindow.new
 
-        @closeButton = CloseButton.create
-        @minimizeButton = MinimizeButton.create
-        @maximizeButton = MaximizeButton.create
+        @closeButton = CloseButton.new
+        @minimizeButton = MinimizeButton.new
+        @maximizeButton = MaximizeButton.new
 
-        @songSearchInput = SongSearchInput.create
+        # @songSearchInput = SongSearchInput.create
 
         # assemble ui components within window
         buildWindow
@@ -23,24 +23,9 @@ class AppDelegate
 
     private
 
-        
+        def controlTextDidChange(notification)
+            p notification.object.stringValue
 
-        def minimize(sender)
-            p sender
-
-            @mainWindow.miniaturize sender
-            # TODO: set window title to songtitle
-            @mainWindow.setMiniwindowTitle('Get fucked')
-            # TODO: set miniwindow image?
-        end
-
-        def maximize(sender)
-            p sender
-
-            @mainWindow.setFrame(
-                NSScreen.mainScreen.visibleFrame,
-                display: true,
-                animate: true
-            )
+            @trackListCtrl.filterSongs(notification.object.stringValue)
         end
 end

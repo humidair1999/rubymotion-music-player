@@ -4,7 +4,7 @@ class AppDelegate
         placeMinimizeButton
         placeMaximizeButton
 
-        placeSongSearchInput
+        # placeSongSearchInput
 
         # @trackListCtrl = TrackListController.new(closeButton: @closeButton)
         # @transportControlsCtrl = TransportControlsController.new(scrollView: @trackListCtrl.getPlaylistElement)
@@ -13,23 +13,23 @@ class AppDelegate
     private
 
         def placeCloseButton
-            @mainWindow.contentView.addSubview(@closeButton)
+            @mainWindow.getUiComponent.contentView.addSubview(@closeButton.getUiComponent)
 
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @closeButton,
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @closeButton.getUiComponent,
                 attribute: NSLayoutAttributeTop,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
+                toItem: @mainWindow.getUiComponent.contentView,
                 attribute: NSLayoutAttributeTop,
                 multiplier: 1.0,
                 constant: 10.0
             ))
 
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @closeButton,
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @closeButton.getUiComponent,
                 attribute: NSLayoutAttributeLeft,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
+                toItem: @mainWindow.getUiComponent.contentView,
                 attribute: NSLayoutAttributeLeft,
                 multiplier: 1.0,
                 constant: 10.0
@@ -37,23 +37,23 @@ class AppDelegate
         end
 
         def placeMinimizeButton
-            @mainWindow.contentView.addSubview(@minimizeButton)
+            @mainWindow.getUiComponent.contentView.addSubview(@minimizeButton.getUiComponent)
 
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @minimizeButton,
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @minimizeButton.getUiComponent,
                 attribute: NSLayoutAttributeTop,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
+                toItem: @mainWindow.getUiComponent.contentView,
                 attribute: NSLayoutAttributeTop,
                 multiplier: 1.0,
                 constant: 10.0
             ))
 
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @minimizeButton,
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @minimizeButton.getUiComponent,
                 attribute: NSLayoutAttributeLeft,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: @closeButton,
+                toItem: @closeButton.getUiComponent,
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
                 constant: 10.0
@@ -61,60 +61,60 @@ class AppDelegate
         end
 
         def placeMaximizeButton
-            @mainWindow.contentView.addSubview(@maximizeButton)
+            @mainWindow.getUiComponent.contentView.addSubview(@maximizeButton.getUiComponent)
 
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @maximizeButton,
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @maximizeButton.getUiComponent,
                 attribute: NSLayoutAttributeTop,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
+                toItem: @mainWindow.getUiComponent.contentView,
                 attribute: NSLayoutAttributeTop,
                 multiplier: 1.0,
                 constant: 10.0
             ))
 
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @maximizeButton,
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @maximizeButton.getUiComponent,
                 attribute: NSLayoutAttributeLeft,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: @minimizeButton,
+                toItem: @minimizeButton.getUiComponent,
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
                 constant: 10.0
             ))
         end
 
-        def placeSongSearchInput
-            @mainWindow.contentView.addSubview(@songSearchInput)
+        # def placeSongSearchInput
+        #     @mainWindow.contentView.addSubview(@songSearchInput)
 
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @songSearchInput,
-                attribute: NSLayoutAttributeTop,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
-                attribute: NSLayoutAttributeTop,
-                multiplier: 1.0,
-                constant: 10.0
-            ))
+        #     @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+        #         @songSearchInput,
+        #         attribute: NSLayoutAttributeTop,
+        #         relatedBy: NSLayoutRelationEqual,
+        #         toItem: @mainWindow.contentView,
+        #         attribute: NSLayoutAttributeTop,
+        #         multiplier: 1.0,
+        #         constant: 10.0
+        #     ))
 
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @songSearchInput,
-                attribute: NSLayoutAttributeLeft,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @maximizeButton,
-                attribute: NSLayoutAttributeRight,
-                multiplier: 1.0,
-                constant: 60.0
-            ))
+        #     @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+        #         @songSearchInput,
+        #         attribute: NSLayoutAttributeLeft,
+        #         relatedBy: NSLayoutRelationEqual,
+        #         toItem: @maximizeButton,
+        #         attribute: NSLayoutAttributeRight,
+        #         multiplier: 1.0,
+        #         constant: 60.0
+        #     ))
 
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @songSearchInput,
-                attribute: NSLayoutAttributeRight,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
-                attribute: NSLayoutAttributeRight,
-                multiplier: 1.0,
-                constant: -10.0
-            ))
-        end
+        #     @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+        #         @songSearchInput,
+        #         attribute: NSLayoutAttributeRight,
+        #         relatedBy: NSLayoutRelationEqual,
+        #         toItem: @mainWindow.contentView,
+        #         attribute: NSLayoutAttributeRight,
+        #         multiplier: 1.0,
+        #         constant: -10.0
+        #     ))
+        # end
 end
