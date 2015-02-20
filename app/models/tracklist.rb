@@ -45,8 +45,6 @@ class TrackList
             # TODO: add some error handling
             url.getResourceValue(isDirectoryPointer, forKey: NSURLIsDirectoryKey, error: nil)
 
-            p isDirectoryPointer[0]
-
             if !isDirectoryPointer[0]
                 if ['mp3', 'm4a'].include?(url.pathExtension)
                     filePathPointer = Pointer.new(:object)

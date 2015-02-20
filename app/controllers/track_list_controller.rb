@@ -144,6 +144,8 @@ class TrackListController
                 table.autoresizingMask = NSViewMinXMargin|NSViewMaxXMargin|NSViewMinYMargin|NSViewMaxYMargin
                 table.target = self
                 table.doubleAction = "doubleClickColumn:"
+                table.allowsColumnReordering = false
+                table.columnAutoresizingStyle = NSTableViewFirstColumnOnlyAutoresizingStyle
                 # table.usesAlternatingRowBackgroundColors = true
                 table.backgroundColor = NSColor.colorWithCalibratedRed(28.0/255.0, green: 42.0/255.0, blue: 57.0/255.0, alpha: 255.0/255.0)
                 table.rowHeight = 18.0
@@ -152,7 +154,7 @@ class TrackListController
             columnFilePath = NSTableColumn.alloc.initWithIdentifier("filePath").tap do |column|
                 column.editable = false
                 column.headerCell.setTitle("File Path")
-                column.width = 200
+                column.width = 550
 
                 filePathSortDescriptor = NSSortDescriptor.sortDescriptorWithKey(
                     column.identifier,
@@ -166,7 +168,7 @@ class TrackListController
             columnDate = NSTableColumn.alloc.initWithIdentifier("length").tap do |column|
                 column.editable = false
                 column.headerCell.setTitle("Length")
-                column.width = 200
+                column.width = 80
 
                 lengthSortDescriptor = NSSortDescriptor.sortDescriptorWithKey(
                     column.identifier,
