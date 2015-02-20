@@ -31,7 +31,7 @@ module UiComponents
                     else
                         # TODO: some sort of error occurred?
                     end
-                })
+                }.weak!)
             end
         end
 

@@ -5,7 +5,7 @@ module UiComponents
         def initialize(songList)
             @uiComponent = nil
 
-            @trackList = songList
+            @trackList = WeakRef.new(songList)
             @data = @trackList.getAllTracks
 
             createUiComponent

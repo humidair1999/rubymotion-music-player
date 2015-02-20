@@ -48,7 +48,7 @@ class TrackList
             # TODO: how to properly handle errors?
             errorHandler: lambda { |url, error|
                 true
-            })
+            }.weak!)
 
         dirEnumerator
     end
