@@ -15,17 +15,9 @@ class AppDelegate
         @minimizeButton = MinimizeButton.new
         @maximizeButton = MaximizeButton.new
 
-        # @songSearchInput = SongSearchInput.create
+        @songSearchInput = SongSearchInput.new
 
         # assemble ui components within window
         buildWindow
     end
-
-    private
-
-        def controlTextDidChange(notification)
-            p notification.object.stringValue
-
-            @trackListCtrl.filterSongs(notification.object.stringValue)
-        end
 end

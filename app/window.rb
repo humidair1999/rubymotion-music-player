@@ -4,7 +4,7 @@ class AppDelegate
         placeMinimizeButton
         placeMaximizeButton
 
-        # placeSongSearchInput
+        placeSongSearchInput
 
         # @trackListCtrl = TrackListController.new(closeButton: @closeButton)
         # @transportControlsCtrl = TransportControlsController.new(scrollView: @trackListCtrl.getPlaylistElement)
@@ -84,37 +84,37 @@ class AppDelegate
             ))
         end
 
-        # def placeSongSearchInput
-        #     @mainWindow.contentView.addSubview(@songSearchInput)
+        def placeSongSearchInput
+            @mainWindow.getUiComponent.contentView.addSubview(@songSearchInput.getUiComponent)
 
-        #     @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-        #         @songSearchInput,
-        #         attribute: NSLayoutAttributeTop,
-        #         relatedBy: NSLayoutRelationEqual,
-        #         toItem: @mainWindow.contentView,
-        #         attribute: NSLayoutAttributeTop,
-        #         multiplier: 1.0,
-        #         constant: 10.0
-        #     ))
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @songSearchInput.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeTop,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
 
-        #     @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-        #         @songSearchInput,
-        #         attribute: NSLayoutAttributeLeft,
-        #         relatedBy: NSLayoutRelationEqual,
-        #         toItem: @maximizeButton,
-        #         attribute: NSLayoutAttributeRight,
-        #         multiplier: 1.0,
-        #         constant: 60.0
-        #     ))
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @songSearchInput.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @maximizeButton.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: 60.0
+            ))
 
-        #     @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-        #         @songSearchInput,
-        #         attribute: NSLayoutAttributeRight,
-        #         relatedBy: NSLayoutRelationEqual,
-        #         toItem: @mainWindow.contentView,
-        #         attribute: NSLayoutAttributeRight,
-        #         multiplier: 1.0,
-        #         constant: -10.0
-        #     ))
-        # end
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @songSearchInput.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: -10.0
+            ))
+        end
 end
