@@ -1,196 +1,29 @@
 class AppDelegate
+    include UiComponents
+
     def applicationDidFinishLaunching(notification)
+        # build osx menu
         buildMenu
-        buildWindow
 
+        # create data models
         @audioManager = AudioManager.new
-    end
 
-    def buildWindow
-        visibleArea = NSScreen.mainScreen.visibleFrame
+        # create top-level ui components
+        @mainWindow = MainWindow.create
 
-        @mainWindow = CustomNSWindow.alloc.initWithContentRect(
-            [[0, NSHeight(visibleArea)], [(NSWidth(visibleArea) / 2), (NSHeight(visibleArea) / 2)]],
-            styleMask: NSBorderlessWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask|NSResizableWindowMask,
-            backing: NSBackingStoreBuffered,
-            defer: false
-        ).tap do |window|
-            window.title = NSBundle.mainBundle.infoDictionary['CFBundleName']
-            # window.setAlphaValue(0.9)
-            window.setBackgroundColor(NSColor.colorWithCalibratedRed(28.0/255.0, green: 42.0/255.0, blue: 57.0/255.0, alpha: 255.0/255.0))
-            # window.setOpaque(false)
-            window.orderFrontRegardless
-        end
+        @closeButton = CloseButton.create
+        @minimizeButton = MinimizeButton.create
+        @maximizeButton = MaximizeButton.create
 
-        buildCloseButton
-        buildMinimizeButton
-        buildMaximizeButton
+        @songSearchInput = SongSearchInput.create
 
-        buildSearchInput
-
-        @trackListCtrl = TrackListController.new(closeButton: @closeButton)
-        @transportControlsCtrl = TransportControlsController.new(scrollView: @trackListCtrl.getPlaylistElement)
+        # assemble ui components within window
+        buildWindow
     end
 
     private
 
-        def buildCloseButton
-            @closeButton = NSButton.alloc.initWithFrame(
-                [[10, 10], [100, 22]]
-            ).tap do |button|
-                button.translatesAutoresizingMaskIntoConstraints = false
-                button.bezelStyle = NSShadowlessSquareBezelStyle
-                button.buttonType = NSMomentaryChangeButton
-                button.title = 'Close'
-                # button.bordered = true
-                # button.image = NSImage.imageNamed('img/circle')
-                # p button.image
-                # button.imagePosition = NSImageOnly
-                button.target = @mainWindow
-                button.action = 'close'
-            end
-
-            @mainWindow.contentView.addSubview(@closeButton)
-
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @closeButton,
-                attribute: NSLayoutAttributeTop,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
-                attribute: NSLayoutAttributeTop,
-                multiplier: 1.0,
-                constant: 10.0
-            ))
-
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @closeButton,
-                attribute: NSLayoutAttributeLeft,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
-                attribute: NSLayoutAttributeLeft,
-                multiplier: 1.0,
-                constant: 10.0
-            ))
-        end
-
-        def buildMinimizeButton
-            @minimizeButton = NSButton.alloc.initWithFrame(
-                [[110, 10], [100, 22]]
-            ).tap do |button|
-                button.translatesAutoresizingMaskIntoConstraints = false
-                button.bezelStyle = NSShadowlessSquareBezelStyle
-                button.buttonType = NSMomentaryChangeButton
-                button.title = 'Minimize'
-                button.target = self
-                button.action = 'minimize:'
-            end
-
-            @mainWindow.contentView.addSubview(@minimizeButton)
-
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @minimizeButton,
-                attribute: NSLayoutAttributeTop,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
-                attribute: NSLayoutAttributeTop,
-                multiplier: 1.0,
-                constant: 10.0
-            ))
-
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @minimizeButton,
-                attribute: NSLayoutAttributeLeft,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @closeButton,
-                attribute: NSLayoutAttributeRight,
-                multiplier: 1.0,
-                constant: 10.0
-            ))
-        end
-
-        def buildMaximizeButton
-            @maximizeButton = NSButton.alloc.initWithFrame(
-                [[210, 10], [100, 22]]
-            ).tap do |button|
-                button.translatesAutoresizingMaskIntoConstraints = false
-                button.bezelStyle = NSShadowlessSquareBezelStyle
-                button.buttonType = NSMomentaryChangeButton
-                button.title = 'Maximize'
-                button.target = self
-                button.action = 'maximize:'
-            end
-
-            @mainWindow.contentView.addSubview(@maximizeButton)
-
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @maximizeButton,
-                attribute: NSLayoutAttributeTop,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
-                attribute: NSLayoutAttributeTop,
-                multiplier: 1.0,
-                constant: 10.0
-            ))
-
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @maximizeButton,
-                attribute: NSLayoutAttributeLeft,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @minimizeButton,
-                attribute: NSLayoutAttributeRight,
-                multiplier: 1.0,
-                constant: 10.0
-            ))
-        end
-
-        def buildSearchInput
-            @searchInput = NSTextField.alloc.initWithFrame(
-                [[210, 10], [100, 22]]
-            ).tap do |textInput|
-                textInput.translatesAutoresizingMaskIntoConstraints = false
-                textInput.setEditable(true)
-                textInput.setDelegate(self)
-                # @text_url.autoresizingMask = NSViewMinXMargin|NSViewMinYMargin|NSViewWidthSizable
-            end
-
-            @mainWindow.contentView.addSubview(@searchInput)
-
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @searchInput,
-                attribute: NSLayoutAttributeTop,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
-                attribute: NSLayoutAttributeTop,
-                multiplier: 1.0,
-                constant: 10.0
-            ))
-
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @searchInput,
-                attribute: NSLayoutAttributeLeft,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @maximizeButton,
-                attribute: NSLayoutAttributeRight,
-                multiplier: 1.0,
-                constant: 60.0
-            ))
-
-            @mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @searchInput,
-                attribute: NSLayoutAttributeRight,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: @mainWindow.contentView,
-                attribute: NSLayoutAttributeRight,
-                multiplier: 1.0,
-                constant: -10.0
-            ))
-        end
-
-        def controlTextDidChange(notification)
-            p notification.object.stringValue
-
-            @trackListCtrl.filterSongs(notification.object.stringValue)
-        end
+        
 
         def minimize(sender)
             p sender
@@ -203,7 +36,6 @@ class AppDelegate
 
         def maximize(sender)
             p sender
-            p NSScreen.mainScreen.visibleFrame
 
             @mainWindow.setFrame(
                 NSScreen.mainScreen.visibleFrame,
