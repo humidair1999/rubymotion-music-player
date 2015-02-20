@@ -244,14 +244,16 @@ class TrackListController
         def doubleClickColumn(sender)
             p 'click song'
 
-            row = sender.clickedRow
-            
-            p @data[row]
+            if sender.clickedRow > -1
+                trackInfo = @data[sender.clickedRow]
 
-            NSNotificationCenter.defaultCenter.postNotificationName('testNotification',
-                object: self,
-                userInfo: @data[row]
-            )
+                p trackInfo
+
+                NSNotificationCenter.defaultCenter.postNotificationName('playNewSong',
+                    object: self,
+                    userInfo: trackInfo
+                )
+            end
         end
 
         def numberOfRowsInTableView(aTableView)
