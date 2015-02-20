@@ -2,53 +2,8 @@ class TrackList
     def initialize
         @fileManager = NSFileManager.alloc.init
 
-        p @fileManager
-
         # TODO: initialize with existing playlist (.json file?)
         @trackList = []
-    end
-
-    def findSongsInDirectory(url)
-        newTracks = []
-
-        dirEnumerator = @fileManager.enumeratorAtURL(url,
-            # TODO: do I need any keys prefetched?
-            includingPropertiesForKeys: nil,
-            options: NSDirectoryEnumerationSkipsHiddenFiles,
-            # TODO: how to properly handle errors?
-            errorHandler: lambda { |url, error|
-                true
-            })
-
-        dirEnumerator.each do |url|
-            p url
-
-            fileName = Pointer.new(:object)
-
-            url.getResourceValue(fileName, forKey: NSURLPathKey, error: nil)
-
-            p fileName[0]
-
-            newTracks << { filePath: fileName[0], length: '1:00' }
-        end
-
-        p newTracks
-
-        addTracks(newTracks)
-
-        # errorPointer = Pointer.new(:object)
-
-        # subDirectories = @fileManager.subpathsOfDirectoryAtPath(path, error: errorPointer)
-
-        # unless subDirectories
-        #     p errorPointer[0]
-        # end
-
-        # p subDirectories
-
-        # subDirectories.each do |filePath|
-        #     @trackList << { filePath: filePath, length: '1:00' }
-        # end
     end
 
     def addTracks(newTracks)
@@ -59,6 +14,51 @@ class TrackList
         p @trackList
 
         @trackList
+    end
+
+    def addSongsFromDirectory(url)
+        directoryEnumerator = createEnumeratorAtUrl(url)
+
+        newTracks = retrieveValidTracksFromEnumerator(directoryEnumerator)
+
+        addTracks(newTracks) if newTracks.size
+    end
+
+    def createEnumeratorAtUrl(url)
+        dirEnumerator = @fileManager.enumeratorAtURL(url,
+            # TODO: do I need any keys prefetched?
+            includingPropertiesForKeys: nil,
+            options: NSDirectoryEnumerationSkipsPackageDescendants|NSDirectoryEnumerationSkipsHiddenFiles,
+            # TODO: how to properly handle errors?
+            errorHandler: lambda { |url, error|
+                true
+            })
+
+        dirEnumerator
+    end
+
+    def retrieveValidTracksFromEnumerator(directoryEnumerator)
+        tracks = []
+
+        directoryEnumerator.each do |url|
+            isDirectoryPointer = Pointer.new(:object)
+            # TODO: add some error handling
+            url.getResourceValue(isDirectoryPointer, forKey: NSURLIsDirectoryKey, error: nil)
+
+            p isDirectoryPointer[0]
+
+            if !isDirectoryPointer[0]
+                if ['mp3', 'm4a'].include?(url.pathExtension)
+                    filePathPointer = Pointer.new(:object)
+                    # TODO: add some error handling
+                    url.getResourceValue(filePathPointer, forKey: NSURLPathKey, error: nil)
+
+                    tracks << { filePath: filePathPointer[0], length: '1:00' }
+                end
+            end
+        end
+
+        tracks
     end
 
     def filterByFilePath(searchQuery)

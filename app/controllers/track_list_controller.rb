@@ -63,8 +63,6 @@ class TrackListController
         end
 
         def selectFolder(sender)
-            p 'select folder'
-
             folderChooserPanel = NSOpenPanel.openPanel.tap do |panel|
                 panel.setCanChooseFiles(false)
                 panel.setCanChooseDirectories(true)
@@ -76,7 +74,7 @@ class TrackListController
                     if (result == NSFileHandlingPanelOKButton)
                         selectedDirectoryUrl = panel.URLs[0]
 
-                        @trackList.findSongsInDirectory(selectedDirectoryUrl)
+                        @trackList.addSongsFromDirectory(selectedDirectoryUrl)
 
                         @data = @trackList.getAllTracks
 
