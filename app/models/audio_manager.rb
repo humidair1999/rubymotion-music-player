@@ -37,6 +37,13 @@ class AudioManager
         p 'PLAY'
 
         @audioPlayer.play
+
+        NSNotificationCenter.defaultCenter.postNotificationName('audioManager:play',
+            object: self,
+            userInfo: {
+                duration: @audioPlayer.duration
+            }
+        )
     end
 
     def pause

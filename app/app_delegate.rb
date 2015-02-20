@@ -23,6 +23,9 @@ class AppDelegate
         # more complex components with children
         @songListTable = SongListTable.new(@trackList)
 
+        # transport controls
+        @progressBar = ProgressBar.new
+
         # assemble ui components within window
         buildWindow
     end

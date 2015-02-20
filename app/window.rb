@@ -9,6 +9,8 @@ class AppDelegate
         placeSelectFolderButton
 
         placeSongListTable
+
+        placeProgressBar
     end
 
     private
@@ -184,6 +186,50 @@ class AppDelegate
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
                 constant: 0.0
+            ))
+        end
+
+        def placeProgressBar
+            @mainWindow.getUiComponent.contentView.addSubview(@progressBar.getUiComponent)
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @progressBar.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @songListTable.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @progressBar.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeBottom,
+                multiplier: 1.0,
+                constant: -10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @progressBar.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @selectFolderButton.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @progressBar.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: -10.0
             ))
         end
 end
