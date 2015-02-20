@@ -27,69 +27,6 @@ class TrackListController
 
     private
 
-        def buildFileSelectButton
-            @fileSelectButton = NSButton.alloc.initWithFrame(
-                [[10, 10], [100, 22]]
-            ).tap do |button|
-                button.translatesAutoresizingMaskIntoConstraints = false
-                button.bezelStyle = NSShadowlessSquareBezelStyle
-                button.buttonType = NSMomentaryChangeButton
-                button.title = 'Select folder'
-                # button.bordered = true
-                # button.image = NSImage.imageNamed('img/circle')
-                # p button.image
-                # button.imagePosition = NSImageOnly
-                button.target = self
-                button.action = 'selectFolder:'
-            end
-
-            mainWindow.contentView.addSubview(@fileSelectButton)
-
-            mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @fileSelectButton,
-                attribute: NSLayoutAttributeBottom,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: mainWindow.contentView,
-                attribute: NSLayoutAttributeBottom,
-                multiplier: 1.0,
-                constant: -10.0
-            ))
-
-            mainWindow.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
-                @fileSelectButton,
-                attribute: NSLayoutAttributeLeft,
-                relatedBy: NSLayoutRelationEqual,
-                toItem: mainWindow.contentView,
-                attribute: NSLayoutAttributeLeft,
-                multiplier: 1.0,
-                constant: 10.0
-            ))
-        end
-
-        def selectFolder(sender)
-            folderChooserPanel = NSOpenPanel.openPanel.tap do |panel|
-                panel.setCanChooseFiles(false)
-                panel.setCanChooseDirectories(true)
-                panel.setAllowsMultipleSelection(false)
-                panel.setResolvesAliases(false)
-                panel.setMessage("Select a directory containing your music:")
-
-                panel.beginSheetModalForWindow(mainWindow, completionHandler: lambda { |result|
-                    if (result == NSFileHandlingPanelOKButton)
-                        selectedDirectoryUrl = panel.URLs[0]
-
-                        @trackList.addSongsFromDirectory(selectedDirectoryUrl)
-
-                        @data = @trackList.getAllTracks
-
-                        @tableView.reloadData
-                    else
-                        # TODO: some sort of error occurred?
-                    end
-                })
-            end
-        end
-
         def buildScrollView
             @scrollView = NSScrollView.alloc.initWithFrame(
                 [[0, 0], [480, 322]]

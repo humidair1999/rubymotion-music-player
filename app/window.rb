@@ -6,6 +6,8 @@ class AppDelegate
 
         placeSongSearchInput
 
+        placeSelectFolderButton
+
         # @trackListCtrl = TrackListController.new(closeButton: @closeButton)
         # @transportControlsCtrl = TransportControlsController.new(scrollView: @trackListCtrl.getPlaylistElement)
     end
@@ -115,6 +117,30 @@ class AppDelegate
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
                 constant: -10.0
+            ))
+        end
+
+        def placeSelectFolderButton
+            @mainWindow.getUiComponent.contentView.addSubview(@selectFolderButton.getUiComponent)
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @selectFolderButton.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeBottom,
+                multiplier: 1.0,
+                constant: -10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @selectFolderButton.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeLeft,
+                multiplier: 1.0,
+                constant: 10.0
             ))
         end
 end

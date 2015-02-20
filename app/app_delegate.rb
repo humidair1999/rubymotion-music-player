@@ -17,6 +17,11 @@ class AppDelegate
 
         @songSearchInput = SongSearchInput.new
 
+        @selectFolderButton = SelectFolderButton.new
+
+        # more complex components with children
+        # @songListTable = SongListTable.new
+
         # assemble ui components within window
         buildWindow
     end
