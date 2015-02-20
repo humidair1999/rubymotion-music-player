@@ -21,6 +21,10 @@ class TrackListController
         @tableView.reloadData
     end
 
+    def getPlaylistElement
+        @scrollView
+    end
+
     private
 
         def buildFileSelectButton
@@ -243,6 +247,11 @@ class TrackListController
             row = sender.clickedRow
             
             p @data[row]
+
+            NSNotificationCenter.defaultCenter.postNotificationName('testNotification',
+                object: self,
+                userInfo: @data[row]
+            )
         end
 
         def numberOfRowsInTableView(aTableView)

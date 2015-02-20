@@ -2,6 +2,8 @@ class AppDelegate
     def applicationDidFinishLaunching(notification)
         buildMenu
         buildWindow
+
+        @audioManager = AudioManager.new
     end
 
     def buildWindow
@@ -27,7 +29,7 @@ class AppDelegate
         buildSearchInput
 
         @trackListCtrl = TrackListController.new(closeButton: @closeButton)
-        @transportControlsViewController = TransportControlsController.new
+        @transportControlsCtrl = TransportControlsController.new(scrollView: @trackListCtrl.getPlaylistElement)
     end
 
     private
