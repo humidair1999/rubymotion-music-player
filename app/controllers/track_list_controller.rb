@@ -74,18 +74,18 @@ class TrackListController
 
                 panel.beginSheetModalForWindow(main_window, completionHandler: lambda { |result|
                     if (result == NSFileHandlingPanelOKButton)
-                        p result
-                        p urls = panel.URLs
+                        selectedDirectoryUrl = panel.URLs[0]
+
+                        @trackList.findSongsInDirectory(selectedDirectoryUrl)
+
+                        @data = @trackList.getAllTracks
+
+                        @tableView.reloadData
+                    else
+                        # TODO: some sort of error occurred?
                     end
                 })
             end
-
-            # TODO: add actual songs from filesystem
-            @trackList.addTracks
-
-            @data = @trackList.getAllTracks
-
-            @tableView.reloadData
         end
 
         def buildScrollView

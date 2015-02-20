@@ -8,13 +8,51 @@ class TrackList
         @trackList = []
     end
 
-    def addTracks
-        # TODO: add actual tracks via file browser in controller
-        @trackList << { filePath: 'hahaha1', length: '6:32' }
-        @trackList << { filePath: 'hahaha2', length: '7:32' }
-        @trackList << { filePath: 'hahaha3', length: '8:32' }
-        @trackList << { filePath: 'hahaha4', length: '9:32' }
-        @trackList << { filePath: 'hahaha5', length: '10:32' }
+    def findSongsInDirectory(url)
+        newTracks = []
+
+        dirEnumerator = @fileManager.enumeratorAtURL(url,
+            # TODO: do I need any keys prefetched?
+            includingPropertiesForKeys: nil,
+            options: NSDirectoryEnumerationSkipsHiddenFiles,
+            # TODO: how to properly handle errors?
+            errorHandler: lambda { |url, error|
+                true
+            })
+
+        dirEnumerator.each do |url|
+            p url
+
+            fileName = Pointer.new(:object)
+
+            url.getResourceValue(fileName, forKey: NSURLPathKey, error: nil)
+
+            p fileName[0]
+
+            newTracks << { filePath: fileName[0], length: '1:00' }
+        end
+
+        p newTracks
+
+        addTracks(newTracks)
+
+        # errorPointer = Pointer.new(:object)
+
+        # subDirectories = @fileManager.subpathsOfDirectoryAtPath(path, error: errorPointer)
+
+        # unless subDirectories
+        #     p errorPointer[0]
+        # end
+
+        # p subDirectories
+
+        # subDirectories.each do |filePath|
+        #     @trackList << { filePath: filePath, length: '1:00' }
+        # end
+    end
+
+    def addTracks(newTracks)
+        @trackList = newTracks
     end
 
     def getAllTracks
