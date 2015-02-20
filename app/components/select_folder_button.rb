@@ -24,13 +24,10 @@ module UiComponents
                     if (result == NSFileHandlingPanelOKButton)
                         selectedDirectoryUrl = panel.URLs[0]
 
-                        # TODO: use notification to send directory
-
-                        # @trackList.addSongsFromDirectory(selectedDirectoryUrl)
-
-                        # @data = @trackList.getAllTracks
-
-                        # @tableView.reloadData
+                        NSNotificationCenter.defaultCenter.postNotificationName('selectFolderButton:selectFolder',
+                            object: self,
+                            userInfo: selectedDirectoryUrl
+                        )
                     else
                         # TODO: some sort of error occurred?
                     end

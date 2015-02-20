@@ -8,8 +8,7 @@ class AppDelegate
 
         placeSelectFolderButton
 
-        # @trackListCtrl = TrackListController.new(closeButton: @closeButton)
-        # @transportControlsCtrl = TransportControlsController.new(scrollView: @trackListCtrl.getPlaylistElement)
+        placeSongListTable
     end
 
     private
@@ -141,6 +140,50 @@ class AppDelegate
                 attribute: NSLayoutAttributeLeft,
                 multiplier: 1.0,
                 constant: 10.0
+            ))
+        end
+
+        def placeSongListTable
+            @mainWindow.getUiComponent.contentView.addSubview(@songListTable.getUiComponent)
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @songListTable.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @closeButton.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @songListTable.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @selectFolderButton.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                multiplier: 1.0,
+                constant: -10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @songListTable.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeLeft,
+                multiplier: 1.0,
+                constant: 0.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @songListTable.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: 0.0
             ))
         end
 end

@@ -27,6 +27,11 @@ module UiComponents
             def controlTextDidChange(notification)
                 p notification.object.stringValue
 
+                NSNotificationCenter.defaultCenter.postNotificationName('songSearchInput:controlTextDidChange',
+                    object: self,
+                    userInfo: notification.object.stringValue
+                )
+
                 # TODO: use notification instead of direct manipulation
 
                 # @trackListCtrl.filterSongs(notification.object.stringValue)

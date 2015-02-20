@@ -6,6 +6,7 @@ class AppDelegate
         buildMenu
 
         # create data models
+        @trackList = TrackList.new
         @audioManager = AudioManager.new
 
         # create top-level ui components
@@ -20,7 +21,7 @@ class AppDelegate
         @selectFolderButton = SelectFolderButton.new
 
         # more complex components with children
-        # @songListTable = SongListTable.new
+        @songListTable = SongListTable.new(@trackList)
 
         # assemble ui components within window
         buildWindow

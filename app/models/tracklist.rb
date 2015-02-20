@@ -4,10 +4,24 @@ class TrackList
 
         # TODO: initialize with existing playlist (.json file?)
         @trackList = []
+
+        attachSubscribers
+    end
+
+    def attachSubscribers
+        NSNotificationCenter.defaultCenter.addObserver(self,
+              selector: 'addSongsFromDirectory:',
+              name: 'selectFolderButton:selectFolder',
+              object: nil
+        )
     end
 
     def addTracks(newTracks)
         @trackList = newTracks
+
+        NSNotificationCenter.defaultCenter.postNotificationName('trackList:addTracks',
+            object: self
+        )
     end
 
     def getAllTracks
@@ -16,7 +30,9 @@ class TrackList
         @trackList
     end
 
-    def addSongsFromDirectory(url)
+    def addSongsFromDirectory(sender)
+        url = sender.userInfo
+
         directoryEnumerator = createEnumeratorAtUrl(url)
 
         newTracks = retrieveValidTracksFromEnumerator(directoryEnumerator)
