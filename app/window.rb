@@ -10,6 +10,7 @@ class AppDelegate
 
         placeSongListTable
 
+        placeCurrentTimeText
         placeProgressBar
         placeTotalDurationText
     end
@@ -190,6 +191,50 @@ class AppDelegate
             ))
         end
 
+        def placeCurrentTimeText
+            @mainWindow.getUiComponent.contentView.addSubview(@currentTimeText.getUiComponent)
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @currentTimeText.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @songListTable.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @currentTimeText.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeBottom,
+                multiplier: 1.0,
+                constant: -10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @currentTimeText.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @selectFolderButton.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @currentTimeText.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @currentTimeText.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                multiplier: 1.0,
+                constant: 60.0
+            ))
+        end
+
         def placeProgressBar
             @mainWindow.getUiComponent.contentView.addSubview(@progressBar.getUiComponent)
 
@@ -217,7 +262,7 @@ class AppDelegate
                 @progressBar.getUiComponent,
                 attribute: NSLayoutAttributeLeft,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: @selectFolderButton.getUiComponent,
+                toItem: @currentTimeText.getUiComponent,
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
                 constant: 10.0
@@ -227,10 +272,10 @@ class AppDelegate
                 @progressBar.getUiComponent,
                 attribute: NSLayoutAttributeRight,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: @selectFolderButton.getUiComponent,
-                attribute: NSLayoutAttributeRight,
+                toItem: @progressBar.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
                 multiplier: 1.0,
-                constant: 300.0
+                constant: 250.0
             ))
         end
 

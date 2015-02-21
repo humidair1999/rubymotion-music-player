@@ -1,5 +1,5 @@
 module UiComponents
-    class TotalDurationText
+    class CurrentTimeText
         include AppHelper
 
         def initialize
@@ -12,14 +12,20 @@ module UiComponents
 
         def attachSubscribers
             NSNotificationCenter.defaultCenter.addObserver(self,
-                  selector: 'updateTotalDuration:',
+                  selector: 'setCurrentTimeToZero',
                   name: 'audioManager:play',
                   object: nil
             )
 
             NSNotificationCenter.defaultCenter.addObserver(self,
-                  selector: 'clearTotalDuration',
+                  selector: 'clearCurrentTime',
                   name: 'audioManager:stop',
+                  object: nil
+            )
+
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'updateCurrentTime:',
+                  name: 'audioManager:startSendingPlayingSongInfo',
                   object: nil
             )
         end
@@ -28,14 +34,18 @@ module UiComponents
             @uiComponent
         end
 
-        def clearTotalDuration
+        def setCurrentTimeToZero
+            getUiComponent.stringValue = '00:00'
+        end
+
+        def clearCurrentTime
             getUiComponent.stringValue = ''
         end
 
-        def updateTotalDuration(sender)
-            songDuration = sender.userInfo[:duration]
+        def updateCurrentTime(sender)
+            currentTime = sender.userInfo[:currentTime]
 
-            getUiComponent.setStringValue(Time.at(songDuration).utc.strftime("%M:%S"))
+            getUiComponent.setStringValue(Time.at(currentTime).utc.strftime("%M:%S"))
         end
 
         private
@@ -52,7 +62,7 @@ module UiComponents
                     textField.setDrawsBackground(false)
                     textField.setBordered(false)
 
-                    # textField.stringValue = 'total'
+                    # textField.stringValue = 'current'
 
                     textField.setTextColor(NSColor.colorWithCalibratedRed(188.0/255.0, green: 202.0/255.0, blue: 217.0/255.0, alpha: 255.0/255.0))
                 end

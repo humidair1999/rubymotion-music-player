@@ -24,6 +24,7 @@ class AppDelegate
         @songListTable = SongListTable.new(@trackList)
 
         # transport controls
+        @currentTimeText = CurrentTimeText.new
         @progressBar = ProgressBar.new
         @totalDurationText = TotalDurationText.new
 

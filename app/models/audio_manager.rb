@@ -56,7 +56,7 @@ class AudioManager
     end
 
     def attachPlayingSongQueueTimer
-        Dispatch::Source.timer(0, 1, 0.5, @dispatchQueue) do |s|
+        Dispatch::Source.timer(0, 0.2, 0.4, @dispatchQueue) do |s|
             NSNotificationCenter.defaultCenter.postNotificationName('audioManager:startSendingPlayingSongInfo',
                 object: self,
                 userInfo: {
