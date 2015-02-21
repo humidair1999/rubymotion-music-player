@@ -38,10 +38,6 @@ class AudioManager
         p 'STOP'
 
         @audioPlayer.stop
-
-        NSNotificationCenter.defaultCenter.postNotificationName('audioManager:stop',
-            object: self
-        )
     end
 
     def play
@@ -87,6 +83,12 @@ class AudioManager
     end
 
     def sound(sound, didFinishPlaying: finishedPlaying)
+        p 'didFinishPlaying'
+
         stopSendingPlayingSongInfo
+
+        NSNotificationCenter.defaultCenter.postNotificationName('audioManager:stop',
+            object: self
+        )
     end
 end
