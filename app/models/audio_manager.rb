@@ -21,10 +21,8 @@ class AudioManager
     def initializeAudio(sender)
         filePath = sender.userInfo[:filePath]
 
-        p 'init audio'
-
         if !@audioPlayer.nil?
-            @audioPlayer.stop
+            stop
 
             @audioPlayer = nil
         end
@@ -34,6 +32,16 @@ class AudioManager
         end
 
         play
+    end
+
+    def stop
+        p 'STOP'
+
+        @audioPlayer.stop
+
+        NSNotificationCenter.defaultCenter.postNotificationName('audioManager:stop',
+            object: self
+        )
     end
 
     def play
@@ -48,21 +56,26 @@ class AudioManager
             }
         )
 
-        startNotifyWhilePlaying
+        startSendingPlayingSongInfo
     end
 
     def attachPlayingSongQueueTimer
         Dispatch::Source.timer(0, 1, 0.5, @dispatchQueue) do |s|
-            puts @audioPlayer.duration
+            NSNotificationCenter.defaultCenter.postNotificationName('audioManager:startSendingPlayingSongInfo',
+                object: self,
+                userInfo: {
+                    currentTime: @audioPlayer.currentTime
+                }
+            )
         end
     end
 
-    def startNotifyWhilePlaying
+    def startSendingPlayingSongInfo
         @dispatchQueue.resume!
     end
 
-    def stopNotifyWhilePlaying
-        p @dispatchQueue.suspended?
+    def stopSendingPlayingSongInfo
+        @dispatchQueue.suspend! if !@dispatchQueue.suspended?
     end
 
     def pause
@@ -74,6 +87,6 @@ class AudioManager
     end
 
     def sound(sound, didFinishPlaying: finishedPlaying)
-        p 'audio finished playing'
+        stopSendingPlayingSongInfo
     end
 end

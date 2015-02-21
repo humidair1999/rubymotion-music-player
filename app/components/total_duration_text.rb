@@ -25,8 +25,6 @@ module UiComponents
         def updateTotalDuration(sender)
             songDuration = sender.userInfo[:duration]
 
-            p songDuration
-
             getUiComponent.setStringValue(Time.at(songDuration).utc.strftime("%M:%S"))
         end
 

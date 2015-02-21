@@ -16,6 +16,18 @@ module UiComponents
                   name: 'audioManager:play',
                   object: nil
             )
+
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'clearCurrentTime',
+                  name: 'audioManager:stop',
+                  object: nil
+            )
+
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'updateCurrentTime:',
+                  name: 'audioManager:startSendingPlayingSongInfo',
+                  object: nil
+            )
         end
 
         def getUiComponent
@@ -25,9 +37,21 @@ module UiComponents
         def updateTotalDuration(sender)
             songDuration = sender.userInfo[:duration]
 
-            p songDuration
+            p "total duration: " + songDuration.to_s
 
-            getUiComponent.setMaxValue(songDuration)
+            getUiComponent.maxValue = songDuration
+        end
+
+        def clearCurrentTime
+            getUiComponent.floatValue = 0.0
+        end
+
+        def updateCurrentTime(sender)
+            currentTime = sender.userInfo[:currentTime]
+
+            p "current time: " + currentTime.to_s
+
+            getUiComponent.floatValue = currentTime
         end
 
         private
