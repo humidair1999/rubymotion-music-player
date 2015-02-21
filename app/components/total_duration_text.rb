@@ -27,7 +27,7 @@ module UiComponents
 
             p songDuration
 
-            getUiComponent.setMaxValue(songDuration)
+            getUiComponent.setStringValue(Time.at(songDuration).utc.strftime("%M:%S"))
         end
 
         private
@@ -36,8 +36,15 @@ module UiComponents
                 @uiComponent = NSTextField.alloc.initWithFrame(
                     [[100, 100], [100, 220]]
                 ).tap do |textField|
+                    textField.editable = false
                     textField.translatesAutoresizingMaskIntoConstraints = false
-                    textField.setStringValue('hahaha')
+
+                    textField.setSelectable(false)
+                    textField.setBezeled(false)
+                    textField.setDrawsBackground(false)
+                    textField.setBordered(false)
+
+                    textField.setTextColor(NSColor.colorWithCalibratedRed(188.0/255.0, green: 202.0/255.0, blue: 217.0/255.0, alpha: 255.0/255.0))
                 end
             end
     end
