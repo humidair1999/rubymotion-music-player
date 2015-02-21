@@ -2,7 +2,12 @@ class AudioManager
     def initialize
         @audioPlayer = nil
 
+        @dispatchQueue = Dispatch::Queue.new('playingSongQueue')
+        @dispatchQueue.suspend!
+
         attachSubscribers
+
+        attachPlayingSongQueueTimer
     end
 
     def attachSubscribers
@@ -22,15 +27,13 @@ class AudioManager
             @audioPlayer.stop
 
             @audioPlayer = nil
-
-            initializeAudio(sender)
-        else
-            @audioPlayer = NSSound.alloc.initWithContentsOfFile(filePath, byReference: true).tap do |player|
-                player.delegate = self
-            end
-
-            play
         end
+
+        @audioPlayer = NSSound.alloc.initWithContentsOfFile(filePath, byReference: true).tap do |player|
+            player.delegate = self
+        end
+
+        play
     end
 
     def play
@@ -44,6 +47,22 @@ class AudioManager
                 duration: @audioPlayer.duration
             }
         )
+
+        startNotifyWhilePlaying
+    end
+
+    def attachPlayingSongQueueTimer
+        Dispatch::Source.timer(0, 1, 0.5, @dispatchQueue) do |s|
+            puts @audioPlayer.duration
+        end
+    end
+
+    def startNotifyWhilePlaying
+        @dispatchQueue.resume!
+    end
+
+    def stopNotifyWhilePlaying
+        p @dispatchQueue.suspended?
     end
 
     def pause
