@@ -25,6 +25,7 @@ class AppDelegate
 
         # transport controls
         @progressBar = ProgressBar.new
+        @totalDurationText = TotalDurationText.new
 
         # assemble ui components within window
         buildWindow
