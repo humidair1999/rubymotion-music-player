@@ -1,3 +1,5 @@
+# TODO: some sort of middleware function for this "if audioPlayer" bullshit
+
 class AudioManager
     def initialize
         @audioPlayer = nil
@@ -34,11 +36,9 @@ class AudioManager
     def initializeAudio(sender)
         filePath = sender.userInfo[:filePath]
 
-        if !@audioPlayer.nil?
-            stop
+        stop
 
-            @audioPlayer = nil
-        end
+        @audioPlayer = nil
 
         @audioPlayer = NSSound.alloc.initWithContentsOfFile(filePath, byReference: true).tap do |player|
             player.delegate = self
@@ -50,13 +50,15 @@ class AudioManager
     end
 
     def seekToSongPosition(sender)
-        newTime = sender.userInfo
+        if @audioPlayer
+            newTime = sender.userInfo
 
-        pause
+            pause
 
-        @audioPlayer.currentTime = newTime if @audioPlayer
+            @audioPlayer.currentTime = newTime
 
-        resume
+            resume
+        end
     end
 
     def changeVolume(sender)
@@ -76,16 +78,18 @@ class AudioManager
     def play
         p 'PLAY'
 
-        @audioPlayer.play if @audioPlayer
+        if @audioPlayer
+            @audioPlayer.play
 
-        NSNotificationCenter.defaultCenter.postNotificationName('audioManager:play',
-            object: self,
-            userInfo: {
-                duration: @audioPlayer.duration.round(2)
-            }
-        )
+            NSNotificationCenter.defaultCenter.postNotificationName('audioManager:play',
+                object: self,
+                userInfo: {
+                    duration: @audioPlayer.duration.round(2)
+                }
+            )
 
-        startSendingPlayingSongInfo
+            startSendingPlayingSongInfo
+        end
     end
 
     def attachPlayingSongQueueTimer
@@ -112,11 +116,13 @@ class AudioManager
     end
 
     def resume
-        @audioPlayer.resume if @audioPlayer
+        if @audioPlayer
+            @audioPlayer.resume
 
-        NSNotificationCenter.defaultCenter.postNotificationName('audioManager:resume',
-            object: self
-        )
+            NSNotificationCenter.defaultCenter.postNotificationName('audioManager:resume',
+                object: self
+            )
+        end
     end
 
     def sound(sound, didFinishPlaying: finishedPlaying)
