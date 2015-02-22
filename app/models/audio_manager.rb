@@ -44,7 +44,7 @@ class AudioManager
             player.delegate = self
         end
 
-        @audioPlayer.volume = @audioPlayerVolume
+        @audioPlayer.volume = @audioPlayerVolume if @audioPlayerVolume
 
         play
     end
@@ -60,7 +60,7 @@ class AudioManager
     end
 
     def changeVolume(sender)
-        newVolume = sender.userInfo.to_s
+        newVolume = sender.userInfo
 
         @audioPlayerVolume = newVolume
 
