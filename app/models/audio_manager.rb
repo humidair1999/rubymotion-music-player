@@ -1,4 +1,4 @@
-# TODO: some sort of middleware function for this "if audioPlayer" bullshit
+# TODO: some sort of middleware function for this "if audioPlayer" bullshit?
 
 class AudioManager
     def initialize

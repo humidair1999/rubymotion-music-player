@@ -1,3 +1,5 @@
+# TODO: don't draw slider cell until song is played?
+
 module UiComponents
     class ProgressBar
         include AppHelper

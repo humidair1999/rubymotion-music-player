@@ -34,12 +34,32 @@ class AppDelegate
 
             @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
                 @closeButton.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @closeButton.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                multiplier: 1.0,
+                constant: 16.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @closeButton.getUiComponent,
                 attribute: NSLayoutAttributeLeft,
                 relatedBy: NSLayoutRelationEqual,
                 toItem: @mainWindow.getUiComponent.contentView,
                 attribute: NSLayoutAttributeLeft,
                 multiplier: 1.0,
                 constant: 10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @closeButton.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @closeButton.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                multiplier: 1.0,
+                constant: 16.0
             ))
         end
 
@@ -58,12 +78,32 @@ class AppDelegate
 
             @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
                 @minimizeButton.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @minimizeButton.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                multiplier: 1.0,
+                constant: 16.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @minimizeButton.getUiComponent,
                 attribute: NSLayoutAttributeLeft,
                 relatedBy: NSLayoutRelationEqual,
                 toItem: @closeButton.getUiComponent,
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
-                constant: 10.0
+                constant: 4.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @minimizeButton.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @minimizeButton.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                multiplier: 1.0,
+                constant: 16.0
             ))
         end
 
@@ -82,12 +122,32 @@ class AppDelegate
 
             @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
                 @maximizeButton.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @maximizeButton.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                multiplier: 1.0,
+                constant: 16.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @maximizeButton.getUiComponent,
                 attribute: NSLayoutAttributeLeft,
                 relatedBy: NSLayoutRelationEqual,
                 toItem: @minimizeButton.getUiComponent,
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
-                constant: 10.0
+                constant: 4.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @maximizeButton.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @maximizeButton.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                multiplier: 1.0,
+                constant: 16.0
             ))
         end
 
