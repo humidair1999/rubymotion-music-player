@@ -42,8 +42,11 @@ class AudioManager
 
     def seekToSongPosition(sender)
         # TODO: some sort of clever volume manipulation to prevent gross artifacts
+        pause
 
         @audioPlayer.currentTime = sender.userInfo
+
+        resume
     end
 
     def stop
