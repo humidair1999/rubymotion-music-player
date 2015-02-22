@@ -23,8 +23,31 @@ module UiComponents
                   object: nil
             )
 
+            addUpdateCurrentTimeObserver
+
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'removeUpdateCurrentTimeObserver',
+                  name: 'progressNsSlider:mouseDown',
+                  object: nil
+            )
+
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'addUpdateCurrentTimeObserver',
+                  name: 'progressNsSlider:mouseUp',
+                  object: nil
+            )
+        end
+
+        def addUpdateCurrentTimeObserver
             NSNotificationCenter.defaultCenter.addObserver(self,
                   selector: 'updateCurrentTime:',
+                  name: 'audioManager:startSendingPlayingSongInfo',
+                  object: nil
+            )
+        end
+
+        def removeUpdateCurrentTimeObserver
+            NSNotificationCenter.defaultCenter.removeObserver(self,
                   name: 'audioManager:startSendingPlayingSongInfo',
                   object: nil
             )
@@ -57,7 +80,7 @@ module UiComponents
         private
 
             def createUiComponent
-                @uiComponent = NSSlider.alloc.initWithFrame(
+                @uiComponent = ProgressNSSlider.alloc.initWithFrame(
                     [[10, 10], [100, 22]]
                 ).tap do |slider|
                     slider.setMinValue(0)

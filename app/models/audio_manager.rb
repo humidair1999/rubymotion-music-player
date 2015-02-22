@@ -16,6 +16,12 @@ class AudioManager
               name: 'playNewSong',
               object: nil
         )
+
+        NSNotificationCenter.defaultCenter.addObserver(self,
+              selector: 'seekToSongPosition:',
+              name: 'progressNsSlider:moveSliderPosition',
+              object: nil
+        )
     end
 
     def initializeAudio(sender)
@@ -34,6 +40,12 @@ class AudioManager
         play
     end
 
+    def seekToSongPosition(sender)
+        # TODO: some sort of clever volume manipulation to prevent gross artifacts
+
+        @audioPlayer.currentTime = sender.userInfo
+    end
+
     def stop
         p 'STOP'
 
@@ -48,7 +60,7 @@ class AudioManager
         NSNotificationCenter.defaultCenter.postNotificationName('audioManager:play',
             object: self,
             userInfo: {
-                duration: @audioPlayer.duration
+                duration: @audioPlayer.duration.round(2)
             }
         )
 
@@ -60,7 +72,7 @@ class AudioManager
             NSNotificationCenter.defaultCenter.postNotificationName('audioManager:startSendingPlayingSongInfo',
                 object: self,
                 userInfo: {
-                    currentTime: @audioPlayer.currentTime
+                    currentTime: @audioPlayer.currentTime.round(2)
                 }
             )
         end
