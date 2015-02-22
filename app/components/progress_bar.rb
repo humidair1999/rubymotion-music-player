@@ -23,17 +23,17 @@ module UiComponents
                   object: nil
             )
 
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'addUpdateCurrentTimeObserver',
+                  name: 'audioManager:resume',
+                  object: nil
+            )
+
             addUpdateCurrentTimeObserver
 
             NSNotificationCenter.defaultCenter.addObserver(self,
                   selector: 'removeUpdateCurrentTimeObserver',
                   name: 'progressNsSlider:mouseDown',
-                  object: nil
-            )
-
-            NSNotificationCenter.defaultCenter.addObserver(self,
-                  selector: 'addUpdateCurrentTimeObserver',
-                  name: 'progressNsSlider:mouseUp',
                   object: nil
             )
         end

@@ -8,13 +8,7 @@ class ProgressNSSlider < NSSlider
 
         super theEvent
 
-        # TODO: check current event to ensure it's a mouseup?
-
         moveSliderPosition
-
-        NSNotificationCenter.defaultCenter.postNotificationName('progressNsSlider:mouseUp',
-            object: self
-        )
     end
 
     def moveSliderPosition

@@ -41,7 +41,6 @@ class AudioManager
     end
 
     def seekToSongPosition(sender)
-        # TODO: some sort of clever volume manipulation to prevent gross artifacts
         pause
 
         @audioPlayer.currentTime = sender.userInfo
@@ -95,6 +94,10 @@ class AudioManager
 
     def resume
         @audioPlayer.resume
+
+        NSNotificationCenter.defaultCenter.postNotificationName('audioManager:resume',
+            object: self
+        )
     end
 
     def sound(sound, didFinishPlaying: finishedPlaying)
