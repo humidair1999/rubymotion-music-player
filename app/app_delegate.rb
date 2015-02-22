@@ -28,6 +28,8 @@ class AppDelegate
         @progressBar = ProgressBar.new
         @totalDurationText = TotalDurationText.new
 
+        @volumeBar = VolumeBar.new
+
         # assemble ui components within window
         buildWindow
     end

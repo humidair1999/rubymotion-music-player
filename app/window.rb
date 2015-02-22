@@ -13,6 +13,8 @@ class AppDelegate
         placeCurrentTimeText
         placeProgressBar
         placeTotalDurationText
+
+        placeVolumeBar
     end
 
     private
@@ -320,6 +322,50 @@ class AppDelegate
                 attribute: NSLayoutAttributeLeft,
                 multiplier: 1.0,
                 constant: 60.0
+            ))
+        end
+
+        def placeVolumeBar
+            @mainWindow.getUiComponent.contentView.addSubview(@volumeBar.getUiComponent)
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @volumeBar.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @songListTable.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @volumeBar.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeBottom,
+                multiplier: 1.0,
+                constant: -10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @volumeBar.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @volumeBar.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: -100.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @volumeBar.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: -10.0
             ))
         end
 end

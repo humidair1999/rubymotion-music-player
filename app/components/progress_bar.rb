@@ -83,7 +83,8 @@ module UiComponents
                 @uiComponent = ProgressNSSlider.alloc.initWithFrame(
                     [[10, 10], [100, 22]]
                 ).tap do |slider|
-                    slider.setMinValue(0)
+                    slider.minValue = 0.0
+                    slider.maxValue = 1.0
                     slider.translatesAutoresizingMaskIntoConstraints = false
                 end
             end

@@ -1,6 +1,7 @@
 class AudioManager
     def initialize
         @audioPlayer = nil
+        @audioPlayerVolume = nil
 
         @dispatchQueue = Dispatch::Queue.new('playingSongQueue')
         @dispatchQueue.suspend!
@@ -22,6 +23,12 @@ class AudioManager
               name: 'progressNsSlider:moveSliderPosition',
               object: nil
         )
+
+        NSNotificationCenter.defaultCenter.addObserver(self,
+              selector: 'changeVolume:',
+              name: 'volumeNsSlider:moveSliderPosition',
+              object: nil
+        )
     end
 
     def initializeAudio(sender)
@@ -37,27 +44,39 @@ class AudioManager
             player.delegate = self
         end
 
+        @audioPlayer.volume = @audioPlayerVolume
+
         play
     end
 
     def seekToSongPosition(sender)
+        newTime = sender.userInfo
+
         pause
 
-        @audioPlayer.currentTime = sender.userInfo
+        @audioPlayer.currentTime = newTime if @audioPlayer
 
         resume
+    end
+
+    def changeVolume(sender)
+        newVolume = sender.userInfo.to_s
+
+        @audioPlayerVolume = newVolume
+
+        @audioPlayer.volume = @audioPlayerVolume if @audioPlayer
     end
 
     def stop
         p 'STOP'
 
-        @audioPlayer.stop
+        @audioPlayer.stop if @audioPlayer
     end
 
     def play
         p 'PLAY'
 
-        @audioPlayer.play
+        @audioPlayer.play if @audioPlayer
 
         NSNotificationCenter.defaultCenter.postNotificationName('audioManager:play',
             object: self,
@@ -89,11 +108,11 @@ class AudioManager
     end
 
     def pause
-        @audioPlayer.pause
+        @audioPlayer.pause if @audioPlayer
     end
 
     def resume
-        @audioPlayer.resume
+        @audioPlayer.resume if @audioPlayer
 
         NSNotificationCenter.defaultCenter.postNotificationName('audioManager:resume',
             object: self
