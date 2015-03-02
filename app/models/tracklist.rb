@@ -67,7 +67,11 @@ class TrackList
                     # TODO: add some error handling
                     url.getResourceValue(filePathPointer, forKey: NSURLPathKey, error: nil)
 
-                    tracks << { filePath: filePathPointer[0], length: '1:00' }
+                    tracks << {
+                        filePath: filePathPointer[0],
+                        length: '1:00',
+                        isPlaying: false
+                    }
                 end
             end
         end

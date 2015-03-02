@@ -80,16 +80,24 @@ module UiComponents
                     table.target = self
                     table.doubleAction = "doubleClickColumn:"
                     table.allowsColumnReordering = false
-                    table.columnAutoresizingStyle = NSTableViewFirstColumnOnlyAutoresizingStyle
+                    table.columnAutoresizingStyle = NSTableViewReverseSequentialColumnAutoresizingStyle
                     # table.usesAlternatingRowBackgroundColors = true
                     table.backgroundColor = NSColor.colorWithCalibratedRed(28.0/255.0, green: 42.0/255.0, blue: 57.0/255.0, alpha: 255.0/255.0)
                     table.rowHeight = 18.0
                 end
 
+                columnIsPlaying = NSTableColumn.alloc.initWithIdentifier("isPlaying").tap do |column|
+                    column.editable = false
+                    column.resizingMask = NSTableColumnAutoresizingMask
+                    column.headerCell.setTitle("Playing")
+                    column.maxWidth = 50
+                end
+
                 columnFilePath = NSTableColumn.alloc.initWithIdentifier("filePath").tap do |column|
                     column.editable = false
+                    column.resizingMask = NSTableColumnAutoresizingMask
                     column.headerCell.setTitle("File Path")
-                    column.width = 550
+                    column.width = 500
 
                     filePathSortDescriptor = NSSortDescriptor.sortDescriptorWithKey(
                         column.identifier,
@@ -102,8 +110,9 @@ module UiComponents
 
                 columnDate = NSTableColumn.alloc.initWithIdentifier("length").tap do |column|
                     column.editable = false
+                    column.resizingMask = NSTableColumnAutoresizingMask
                     column.headerCell.setTitle("Length")
-                    column.width = 80
+                    column.maxWidth = 80
 
                     lengthSortDescriptor = NSSortDescriptor.sortDescriptorWithKey(
                         column.identifier,
@@ -114,6 +123,7 @@ module UiComponents
                     column.setSortDescriptorPrototype(lengthSortDescriptor)
                 end
 
+                @tableView.addTableColumn(columnIsPlaying)
                 @tableView.addTableColumn(columnFilePath)
                 @tableView.addTableColumn(columnDate)
 
@@ -180,6 +190,8 @@ module UiComponents
                 # p aTableColumn
 
                 case aTableColumn.identifier
+                    when 'isPlaying'
+                        @data[rowIndex][:isPlaying]
                     when 'filePath'
                         @data[rowIndex][:filePath]
                     when 'length'
