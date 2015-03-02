@@ -167,7 +167,7 @@ module UiComponents
 
                 # result is now guaranteed to be valid, either as a reused cell
                 # or as a new cell, so set the stringValue of the cell to the
-                # nameArray value at row
+                # data value at aRow
                 result.stringValue = @data[aRow]
 
                 # Return the result

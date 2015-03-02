@@ -69,8 +69,10 @@ class TrackList
 
                     tracks << {
                         filePath: filePathPointer[0],
+                        # TODO: show actual song lengths
                         length: '1:00',
-                        isPlaying: false
+                        isPlaying: false,
+                        id: [*('a'..'z'),*('0'..'9')].shuffle[0,25].join
                     }
                 end
             end
