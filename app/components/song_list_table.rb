@@ -50,7 +50,11 @@ module UiComponents
             p 'click song'
 
             if sender.clickedRow > -1
-                trackInfo = @data[sender.clickedRow]
+                trackId = @data[sender.clickedRow][:id]
+
+                p trackId
+
+                trackInfo = @trackList.findTrackById(trackId)
 
                 p trackInfo
 

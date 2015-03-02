@@ -30,6 +30,10 @@ class TrackList
         @trackList
     end
 
+    def findTrackById(id)
+        getAllTracks.find {|track| track[:id] == id }
+    end
+
     def addSongsFromDirectory(sender)
         url = sender.userInfo
 
