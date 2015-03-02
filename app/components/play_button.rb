@@ -54,13 +54,13 @@ module UiComponents
                 @uiComponent = NSButton.alloc.initWithFrame(
                     [[10, 10], [100, 22]]
                 ).tap do |button|
-                    neutralImgPath = NSBundle.mainBundle.pathForResource("img/circle2", ofType: "png")
+                    neutralImgPath = NSBundle.mainBundle.pathForResource("img/play", ofType: "png")
                     neutralImgUrl = NSURL.fileURLWithPath(neutralImgPath)
                     neutralImg = NSImage.alloc.initWithContentsOfURL(neutralImgUrl)
 
                     button.setImage(neutralImg)
 
-                    activeImgPath = NSBundle.mainBundle.pathForResource("img/circle", ofType: "png")
+                    activeImgPath = NSBundle.mainBundle.pathForResource("img/pause", ofType: "png")
                     activeImgUrl = NSURL.fileURLWithPath(activeImgPath)
                     activeImg = NSImage.alloc.initWithContentsOfURL(activeImgUrl)
 
@@ -70,7 +70,7 @@ module UiComponents
                     button.setImagePosition(NSImageOnly)
 
                     button.translatesAutoresizingMaskIntoConstraints = false
-                    button.bordered = true
+                    button.bordered = false
                     button.bezelStyle = NSShadowlessSquareBezelStyle
                     button.buttonType = NSToggleButton
 

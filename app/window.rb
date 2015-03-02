@@ -173,7 +173,7 @@ class AppDelegate
                 toItem: @playButton.getUiComponent,
                 attribute: NSLayoutAttributeTop,
                 multiplier: 1.0,
-                constant: 16.0
+                constant: 32.0
             ))
 
             @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
@@ -183,7 +183,7 @@ class AppDelegate
                 toItem: @maximizeButton.getUiComponent,
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
-                constant: 100.0
+                constant: 60.0
             ))
 
             @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
@@ -193,7 +193,7 @@ class AppDelegate
                 toItem: @playButton.getUiComponent,
                 attribute: NSLayoutAttributeLeft,
                 multiplier: 1.0,
-                constant: 16.0
+                constant: 32.0
             ))
         end
 
@@ -262,7 +262,7 @@ class AppDelegate
                 @songListTable.getUiComponent,
                 attribute: NSLayoutAttributeTop,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: @closeButton.getUiComponent,
+                toItem: @playButton.getUiComponent,
                 attribute: NSLayoutAttributeBottom,
                 multiplier: 1.0,
                 constant: 10.0
