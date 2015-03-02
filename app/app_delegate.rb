@@ -16,6 +16,8 @@ class AppDelegate
         @minimizeButton = MinimizeButton.new
         @maximizeButton = MaximizeButton.new
 
+        @playButton = PlayButton.new
+
         @songSearchInput = SongSearchInput.new
 
         @selectFolderButton = SelectFolderButton.new

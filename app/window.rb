@@ -4,6 +4,8 @@ class AppDelegate
         placeMinimizeButton
         placeMaximizeButton
 
+        placePlayButton
+
         placeSongSearchInput
 
         placeSelectFolderButton
@@ -151,6 +153,50 @@ class AppDelegate
             ))
         end
 
+        def placePlayButton
+            @mainWindow.getUiComponent.contentView.addSubview(@playButton.getUiComponent)
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @playButton.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @mainWindow.getUiComponent.contentView,
+                attribute: NSLayoutAttributeTop,
+                multiplier: 1.0,
+                constant: 10.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @playButton.getUiComponent,
+                attribute: NSLayoutAttributeBottom,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @playButton.getUiComponent,
+                attribute: NSLayoutAttributeTop,
+                multiplier: 1.0,
+                constant: 16.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @playButton.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @maximizeButton.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                multiplier: 1.0,
+                constant: 100.0
+            ))
+
+            @mainWindow.getUiComponent.contentView.addConstraint(NSLayoutConstraint.constraintWithItem(
+                @playButton.getUiComponent,
+                attribute: NSLayoutAttributeRight,
+                relatedBy: NSLayoutRelationEqual,
+                toItem: @playButton.getUiComponent,
+                attribute: NSLayoutAttributeLeft,
+                multiplier: 1.0,
+                constant: 16.0
+            ))
+        end
+
         def placeSongSearchInput
             @mainWindow.getUiComponent.contentView.addSubview(@songSearchInput.getUiComponent)
 
@@ -168,7 +214,7 @@ class AppDelegate
                 @songSearchInput.getUiComponent,
                 attribute: NSLayoutAttributeLeft,
                 relatedBy: NSLayoutRelationEqual,
-                toItem: @maximizeButton.getUiComponent,
+                toItem: @playButton.getUiComponent,
                 attribute: NSLayoutAttributeRight,
                 multiplier: 1.0,
                 constant: 60.0
