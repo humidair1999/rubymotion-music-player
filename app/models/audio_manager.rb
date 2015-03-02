@@ -16,7 +16,7 @@ class AudioManager
     def attachSubscribers
         NSNotificationCenter.defaultCenter.addObserver(self,
               selector: 'initializeAudio:',
-              name: 'playNewSong',
+              name: 'songListTable:playNewSong',
               object: nil
         )
 

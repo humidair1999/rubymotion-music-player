@@ -54,7 +54,7 @@ module UiComponents
 
                 p trackInfo
 
-                NSNotificationCenter.defaultCenter.postNotificationName('playNewSong',
+                NSNotificationCenter.defaultCenter.postNotificationName('songListTable:playNewSong',
                     object: self,
                     userInfo: trackInfo
                 )
