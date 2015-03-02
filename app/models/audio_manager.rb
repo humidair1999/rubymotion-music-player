@@ -127,6 +127,8 @@ class AudioManager
         if @audioPlayer
             @audioPlayer.pause
 
+            stopSendingPlayingSongInfo
+
             NSNotificationCenter.defaultCenter.postNotificationName('audioManager:pause',
                 object: self
             )
@@ -136,6 +138,8 @@ class AudioManager
     def resume
         if @audioPlayer
             @audioPlayer.resume
+
+            startSendingPlayingSongInfo
 
             NSNotificationCenter.defaultCenter.postNotificationName('audioManager:resume',
                 object: self

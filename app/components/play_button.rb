@@ -80,17 +80,11 @@ module UiComponents
             end
 
             def play
-                p getUiComponent.state
-
                 if (getUiComponent.state == 0)
-                    p 'pause'
-
                     NSNotificationCenter.defaultCenter.postNotificationName('playButton:pause',
                         object: self
                     )
                 elsif (getUiComponent.state == 1)
-                    p 'resume'
-
                     NSNotificationCenter.defaultCenter.postNotificationName('playButton:resume',
                         object: self
                     )
