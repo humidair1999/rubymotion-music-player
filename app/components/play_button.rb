@@ -6,10 +6,46 @@ module UiComponents
             @uiComponent = nil
 
             createUiComponent
+
+            attachSubscribers
+        end
+
+        def attachSubscribers
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'switchToPauseButton',
+                  name: 'audioManager:play',
+                  object: nil
+            )
+
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'switchToPauseButton',
+                  name: 'audioManager:resume',
+                  object: nil
+            )
+
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'switchToPlayButton',
+                  name: 'audioManager:stop',
+                  object: nil
+            )
+
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'switchToPlayButton',
+                  name: 'audioManager:pause',
+                  object: nil
+            )
         end
 
         def getUiComponent
             @uiComponent
+        end
+
+        def switchToPauseButton
+            getUiComponent.setState(NSOnState)
+        end
+
+        def switchToPlayButton
+            getUiComponent.setState(NSOffState)
         end
 
         private
@@ -36,10 +72,28 @@ module UiComponents
                     button.translatesAutoresizingMaskIntoConstraints = false
                     button.bordered = true
                     button.bezelStyle = NSShadowlessSquareBezelStyle
-                    button.buttonType = NSMomentaryChangeButton
+                    button.buttonType = NSToggleButton
 
-                    button.target = MainAppWindow.get.getUiComponent
-                    button.action = 'close'
+                    button.target = self
+                    button.action = 'play'
+                end
+            end
+
+            def play
+                p getUiComponent.state
+
+                if (getUiComponent.state == 0)
+                    p 'pause'
+
+                    NSNotificationCenter.defaultCenter.postNotificationName('playButton:pause',
+                        object: self
+                    )
+                elsif (getUiComponent.state == 1)
+                    p 'resume'
+
+                    NSNotificationCenter.defaultCenter.postNotificationName('playButton:resume',
+                        object: self
+                    )
                 end
             end
     end

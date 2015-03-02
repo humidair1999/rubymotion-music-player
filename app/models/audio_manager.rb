@@ -21,6 +21,18 @@ class AudioManager
         )
 
         NSNotificationCenter.defaultCenter.addObserver(self,
+              selector: 'pause',
+              name: 'playButton:pause',
+              object: nil
+        )
+
+        NSNotificationCenter.defaultCenter.addObserver(self,
+              selector: 'resume',
+              name: 'playButton:resume',
+              object: nil
+        )
+
+        NSNotificationCenter.defaultCenter.addObserver(self,
               selector: 'seekToSongPosition:',
               name: 'progressNsSlider:moveSliderPosition',
               object: nil
@@ -112,7 +124,13 @@ class AudioManager
     end
 
     def pause
-        @audioPlayer.pause if @audioPlayer
+        if @audioPlayer
+            @audioPlayer.pause
+
+            NSNotificationCenter.defaultCenter.postNotificationName('audioManager:pause',
+                object: self
+            )
+        end
     end
 
     def resume
