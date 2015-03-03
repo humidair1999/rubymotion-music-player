@@ -4,6 +4,8 @@ class AudioManager
     def initialize
         @audioPlayer = nil
         @audioPlayerVolume = nil
+
+        # TODO: probably change this to represent entire current track
         @trackId = nil
 
         @dispatchQueue = Dispatch::Queue.new('playingSongQueue')
@@ -52,12 +54,9 @@ class AudioManager
 
         stop
 
-        @trackId = nil
-
         @trackId = trackId
 
         @audioPlayer = nil
-
         @audioPlayer = NSSound.alloc.initWithContentsOfFile(filePath, byReference: true).tap do |player|
             player.delegate = self
         end

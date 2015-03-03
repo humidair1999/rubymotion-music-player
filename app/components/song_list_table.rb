@@ -41,10 +41,8 @@ module UiComponents
         def refreshRow(sender)
             trackRowIndex = sender.userInfo[:trackRowIndex]
 
-            p trackRowIndex
-
             row = NSIndexSet.indexSetWithIndex(trackRowIndex)
-            col = NSIndexSet.indexSetWithIndex(0)
+            col = NSIndexSet.indexSetWithIndexesInRange((0..2))
 
             @tableView.reloadDataForRowIndexes(row, columnIndexes: col)
         end
@@ -68,8 +66,6 @@ module UiComponents
 
             if sender.clickedRow > -1
                 trackId = @data[sender.clickedRow][:id]
-
-                p trackId
 
                 trackInfo = @trackList.findTrackById(trackId)
 

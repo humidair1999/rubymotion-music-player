@@ -1,3 +1,6 @@
+# TODO: need to store backup and modified track listings in here to allow sorting
+#  and filtering to work correctly with isPlaying column
+
 class TrackList
     def initialize
         @fileManager = NSFileManager.alloc.init
@@ -46,23 +49,27 @@ class TrackList
         getAllTracks.find {|track| track[:id] == id }
     end
 
+    def getTrackIndexById(id)
+        trackArray = getAllTracks
+
+        # http://stackoverflow.com/questions/6242311/quickly-get-index-of-array-element-in-ruby
+        trackHash = Hash[trackArray.map.with_index.to_a]
+
+        trackRowIndex = trackHash.select { |track| track[:id] == id }.invert.keys.first
+
+        trackRowIndex
+    end
+
     def updateIsPlaying(sender)
         trackId = sender.userInfo[:trackId]
-
         track = findTrackById(trackId)
 
-        p track[:isPlaying] = !track[:isPlaying]
-
-        array = getAllTracks
-        hash = Hash[array.map.with_index.to_a]
-        # hash['b']
-        p 'SHDSDSHJSDJHHJ'
-        trackRowIndex = hash.select { |track| track[:id] == trackId }.invert.keys.first
+        track[:isPlaying] = !track[:isPlaying]
 
         NSNotificationCenter.defaultCenter.postNotificationName('trackList:updateTrackInfo',
             object: self,
             userInfo: {
-                trackRowIndex: trackRowIndex
+                trackRowIndex: getTrackIndexById(trackId)
             }
         )
     end
