@@ -1,3 +1,6 @@
+# TODO: sorting and filtering is fucked with new isPlaying indicator; need to do all
+#  data manipulation on the model
+
 module UiComponents
     class SongListTable
         include AppHelper
@@ -62,8 +65,6 @@ module UiComponents
         end
 
         def doubleClickColumn(sender)
-            p 'click song'
-
             if sender.clickedRow > -1
                 trackId = @data[sender.clickedRow][:id]
 

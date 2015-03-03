@@ -41,6 +41,8 @@ module UiComponents
         end
 
         def addUpdateCurrentTimeObserver
+            removeUpdateCurrentTimeObserver
+
             NSNotificationCenter.defaultCenter.addObserver(self,
                   selector: 'updateCurrentTime:',
                   name: 'audioManager:startSendingPlayingSongInfo',
