@@ -14,6 +14,18 @@ class TrackList
               name: 'selectFolderButton:selectFolder',
               object: nil
         )
+
+        NSNotificationCenter.defaultCenter.addObserver(self,
+              selector: 'updateIsPlaying:',
+              name: 'audioManager:stop',
+              object: nil
+        )
+
+        NSNotificationCenter.defaultCenter.addObserver(self,
+              selector: 'updateIsPlaying:',
+              name: 'audioManager:play',
+              object: nil
+        )
     end
 
     def addTracks(newTracks)
@@ -25,13 +37,34 @@ class TrackList
     end
 
     def getAllTracks
-        p @trackList
+        # p @trackList
 
         @trackList
     end
 
     def findTrackById(id)
         getAllTracks.find {|track| track[:id] == id }
+    end
+
+    def updateIsPlaying(sender)
+        trackId = sender.userInfo[:trackId]
+
+        track = findTrackById(trackId)
+
+        p track[:isPlaying] = !track[:isPlaying]
+
+        array = getAllTracks
+        hash = Hash[array.map.with_index.to_a]
+        # hash['b']
+        p 'SHDSDSHJSDJHHJ'
+        trackRowIndex = hash.select { |track| track[:id] == trackId }.invert.keys.first
+
+        NSNotificationCenter.defaultCenter.postNotificationName('trackList:updateTrackInfo',
+            object: self,
+            userInfo: {
+                trackRowIndex: trackRowIndex
+            }
+        )
     end
 
     def addSongsFromDirectory(sender)

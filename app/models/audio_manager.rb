@@ -4,6 +4,7 @@ class AudioManager
     def initialize
         @audioPlayer = nil
         @audioPlayerVolume = nil
+        @trackId = nil
 
         @dispatchQueue = Dispatch::Queue.new('playingSongQueue')
         @dispatchQueue.suspend!
@@ -47,8 +48,13 @@ class AudioManager
 
     def initializeAudio(sender)
         filePath = sender.userInfo[:filePath]
+        trackId = sender.userInfo[:id]
 
         stop
+
+        @trackId = nil
+
+        @trackId = trackId
 
         @audioPlayer = nil
 
@@ -96,6 +102,7 @@ class AudioManager
             NSNotificationCenter.defaultCenter.postNotificationName('audioManager:play',
                 object: self,
                 userInfo: {
+                    trackId: @trackId,
                     duration: @audioPlayer.duration.round(2)
                 }
             )
@@ -124,6 +131,8 @@ class AudioManager
     end
 
     def pause
+        p 'PAUSE'
+
         if @audioPlayer
             @audioPlayer.pause
 
@@ -136,6 +145,8 @@ class AudioManager
     end
 
     def resume
+        p 'RESUME'
+
         if @audioPlayer
             @audioPlayer.resume
 
@@ -153,7 +164,10 @@ class AudioManager
         stopSendingPlayingSongInfo
 
         NSNotificationCenter.defaultCenter.postNotificationName('audioManager:stop',
-            object: self
+            object: self,
+            userInfo: {
+                trackId: @trackId
+            }
         )
     end
 end

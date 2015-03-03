@@ -26,10 +26,27 @@ module UiComponents
                   name: 'songSearchInput:controlTextDidChange',
                   object: nil
             )
+
+            NSNotificationCenter.defaultCenter.addObserver(self,
+                  selector: 'refreshRow:',
+                  name: 'trackList:updateTrackInfo',
+                  object: nil
+            )
         end
 
         def getUiComponent
             @uiComponent
+        end
+
+        def refreshRow(sender)
+            trackRowIndex = sender.userInfo[:trackRowIndex]
+
+            p trackRowIndex
+
+            row = NSIndexSet.indexSetWithIndex(trackRowIndex)
+            col = NSIndexSet.indexSetWithIndex(0)
+
+            @tableView.reloadDataForRowIndexes(row, columnIndexes: col)
         end
 
         def refreshData
